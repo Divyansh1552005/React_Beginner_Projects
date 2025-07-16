@@ -50,6 +50,7 @@ function Login() {
                 <label className={`block text-sm font-medium mb-2 ${
                   theme === 'dark' ? 'text-gray-300' : 'text-gray-700'
                 }`}>Password</label>
+<<<<<<< HEAD
                 <div className="relative">
                     <input 
                         type={showPassword ? 'text' : 'password'} 
@@ -83,6 +84,19 @@ function Login() {
                         )}
                     </button>
                 </div>
+=======
+                <input 
+                    type='password' 
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder='Enter your password'
+                    className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition duration-200 ${
+                      theme === 'dark' 
+                        ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' 
+                        : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500'
+                    }`}
+                />
+>>>>>>> 5f8db24f440276cdc145c2cfc835f3143573044e
             </div>
             <button 
                 type="submit"
