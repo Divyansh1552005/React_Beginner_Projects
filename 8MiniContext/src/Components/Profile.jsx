@@ -35,6 +35,7 @@ function Profile() {
         )
     }
 
+    
     return (
         <div className={`max-w-md mx-auto rounded-xl shadow-lg p-8 transition-colors duration-300 ${
             theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-white text-gray-900'
