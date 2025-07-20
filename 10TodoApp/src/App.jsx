@@ -54,8 +54,8 @@ function App() {
  
   return (
     <TodoProvider value={{todos,addTodo , deleteTodo, updateTodo, toggleComplete}}>
-      <h1 className='bg-[#172870] text-white text-3xl text-center py-6 shadow-lg rounded-2xl '>
-        Task Management Application with React
+      <h1 className='bg-blue-900/30 text-white text-3xl text-center py-6 shadow-lg rounded-2xl '>
+        Task Management Application
       </h1>
 
       <div className="bg-[#172842] min-h-screen py-8 rounded-2xl">
