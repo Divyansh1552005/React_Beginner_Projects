@@ -7,9 +7,10 @@ function Todoitem({ todo }) {
 
     const [isTodoEditable, setIsTodoEditable] = useState(false); // state to check if todo is editable so icon show hovega ya nahi
     const [todoMsg, setTodoMsg] = useState(todo.todo); // state to hold the todo message
+    const [todoDescription, setTodoDescription] = useState(todo.description || ''); // state to hold the todo description
 
     const editTodo = ()=>{
-        updateTodo(todo.id , {...todo, todo: todoMsg}); // call the updateTodo function from context with the updated todo object
+        updateTodo(todo.id , {...todo, todo: todoMsg, description: todoDescription}); // call the updateTodo function from context with the updated todo object
         setIsTodoEditable(false); // after editing the todo, set the isTodoEditable state
 
     }
@@ -64,11 +65,22 @@ function Todoitem({ todo }) {
                     readOnly={!isTodoEditable}
                     placeholder="Enter your todo..."
                 />
-                {/* Description Display */}
-                {todo.description && (
-                    <p className={`text-sm mt-1 ${todo.completed ? "line-through text-gray-500" : "text-gray-300"}`}>
-                        {todo.description}
-                    </p>
+                
+                {/* Description Input/Display */}
+                {isTodoEditable ? (
+                    <textarea
+                        className="w-full bg-white/10 px-3 py-2 mt-2 rounded-lg border border-blue-400/50 focus:border-blue-400 text-white placeholder-gray-400 outline-none transition-all duration-300 text-sm resize-none"
+                        value={todoDescription}
+                        onChange={(e) => setTodoDescription(e.target.value)}
+                        placeholder="Add a description (optional)..."
+                        rows="2"
+                    />
+                ) : (
+                    todo.description && (
+                        <p className={`text-sm mt-1 ${todo.completed ? "line-through text-gray-500" : "text-gray-300"}`}>
+                            {todo.description}
+                        </p>
+                    )
                 )}
             </div>
 
