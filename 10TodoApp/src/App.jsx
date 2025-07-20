@@ -54,13 +54,13 @@ function App() {
  
   return (
     <TodoProvider value={{todos,addTodo , deleteTodo, updateTodo, toggleComplete}}>
-      <h1 className='bg-blue-900/30 text-white text-3xl text-center py-6 shadow-lg rounded-2xl '>
+      <h1 className='text-white text-4xl text-center py-4 rounded-2xl font-bold bg-[#172842] shadow-md shadow-blue-500/20 border border-blue-400/10' style={{textShadow: '0 0 5px #3b82f6'}}>
         Task Management Application
       </h1>
 
-      <div className="bg-[#172842] min-h-screen py-8 rounded-2xl">
+      <div className="bg-[#172842] min-h-screen py-4 rounded-2xl">
                 <div className="w-full max-w-2xl mx-auto shadow-md rounded-lg px-4 py-3 text-white">
-                    <h1 className="text-2xl font-bold text-center mb-8 mt-2">Manage Your Tasks</h1>
+                    <h1 className="text-2xl font-bold text-center mb-8 mt-2">Manage Tasks Efficiently</h1>
                     <div className="mb-4">
                         {/* Todo form goes here */} 
                         <Todoform />
