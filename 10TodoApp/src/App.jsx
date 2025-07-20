@@ -54,15 +54,35 @@ function App() {
  
   return (
     <TodoProvider value={{todos,addTodo , deleteTodo, updateTodo, toggleComplete}}>
-      <h1 className='bg-gray-500 underline font-bold'> To-do Application with Context API and Local Storage</h1>
+      <h1 className='bg-[#172870] text-white text-3xl text-center py-6 shadow-lg rounded-2xl '>
+        Task Management Application with React
+      </h1>
 
-      <div className="bg-[#172842] min-h-screen py-8">
+      <div className="bg-[#172842] min-h-screen py-8 rounded-2xl">
                 <div className="w-full max-w-2xl mx-auto shadow-md rounded-lg px-4 py-3 text-white">
-                    <h1 className="text-2xl font-bold text-center mb-8 mt-2">Manage Your Todos</h1>
+                    <h1 className="text-2xl font-bold text-center mb-8 mt-2">Manage Your Tasks</h1>
                     <div className="mb-4">
                         {/* Todo form goes here */} 
                         <Todoform />
                     </div>
+                    
+                    {/* Task Count Display */}
+                    {todos.length > 0 && (
+                        <div className="mb-4 p-3 bg-blue-900/30 rounded-lg border border-blue-700/30">
+                            <div className="flex justify-between items-center text-sm">
+                                <span className="text-blue-200">
+                                    Active: {todos.filter(todo => !todo.completed).length}
+                                </span>
+                                <span className="text-blue-200">
+                                    Completed: {todos.filter(todo => todo.completed).length}
+                                </span>
+                                <span className="text-blue-200">
+                                    Total: {todos.length}
+                                </span>
+                            </div>
+                        </div>
+                    )}
+                    
                     <div className="flex flex-wrap gap-y-3">
                         {/*Loop and Add TodoItem here */}
                         {todos.map((todo) => (

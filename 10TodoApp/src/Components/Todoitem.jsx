@@ -22,8 +22,8 @@ function Todoitem({ todo }) {
 
     return (
         <div
-            className={`group flex items-center bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-4 gap-4 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] ${
-                todo.completed ? "bg-green-500/20 border-green-400/30" : "bg-blue-500/10 border-blue-400/20"
+            className={`group flex items-center backdrop-blur-sm border rounded-xl p-4 gap-4 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] ${
+                todo.completed ? "bg-green-500/20 border-green-400/30" : "bg-white/10 border-white/20"
             }`}
         >
             {/* Custom Checkbox */}
@@ -39,7 +39,7 @@ function Todoitem({ todo }) {
                     className={`w-6 h-6 rounded-full border-2 cursor-pointer transition-all duration-300 flex items-center justify-center ${
                         todo.completed
                             ? "bg-green-500 border-green-500 text-white"
-                            : "border-gray-400 hover:border-blue-400 bg-transparent"
+                            : "border-white bg-white/10"
                     }`}
                 >
                     {todo.completed && (
