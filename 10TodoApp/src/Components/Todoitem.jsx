@@ -22,12 +22,12 @@ function Todoitem({ todo }) {
 
     return (
         <div
-            className={`group flex items-center backdrop-blur-sm border rounded-xl p-4 gap-4 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] ${
+            className={`group flex items-start backdrop-blur-sm border rounded-xl p-4 gap-4 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] min-h-[80px] w-full ${
                 todo.completed ? "bg-green-500/20 border-green-400/30" : "bg-white/10 border-white/20"
             }`}
         >
             {/* Custom Checkbox */}
-            <div className="relative">
+            <div className="relative flex-shrink-0 mt-1">
                 <input
                     type="checkbox"
                     className="sr-only"
@@ -50,19 +50,27 @@ function Todoitem({ todo }) {
                 </div>
             </div>
 
-            {/* Todo Text Input */}
-            <input
-                type="text"
-                className={`flex-1 bg-transparent text-white placeholder-gray-400 outline-none transition-all duration-300 ${
-                    isTodoEditable
-                        ? "bg-white/10 px-3 py-2 rounded-lg border border-blue-400/50 focus:border-blue-400"
-                        : "border-none"
-                } ${todo.completed ? "line-through text-gray-400" : "text-white"}`}
-                value={todoMsg}
-                onChange={(e) => setTodoMsg(e.target.value)}
-                readOnly={!isTodoEditable}
-                placeholder="Enter your todo..."
-            />
+            {/* Todo Content */}
+            <div className="flex-1">
+                <input
+                    type="text"
+                    className={`w-full bg-transparent text-white placeholder-gray-400 outline-none transition-all duration-300 font-semibold text-lg ${
+                        isTodoEditable
+                            ? "bg-white/10 px-3 py-2 rounded-lg border border-blue-400/50 focus:border-blue-400"
+                            : "border-none"
+                    } ${todo.completed ? "line-through text-gray-400" : "text-white"}`}
+                    value={todoMsg}
+                    onChange={(e) => setTodoMsg(e.target.value)}
+                    readOnly={!isTodoEditable}
+                    placeholder="Enter your todo..."
+                />
+                {/* Description Display */}
+                {todo.description && (
+                    <p className={`text-sm mt-1 ${todo.completed ? "line-through text-gray-500" : "text-gray-300"}`}>
+                        {todo.description}
+                    </p>
+                )}
+            </div>
 
             {/* Action Buttons Container */}
             <div className="flex items-center gap-2">
