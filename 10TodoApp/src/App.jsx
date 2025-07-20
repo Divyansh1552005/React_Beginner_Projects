@@ -1,8 +1,9 @@
-import { useState, useEffect, use } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useState, useEffect} from 'react'
 import './App.css'
 import { TodoProvider } from './Context/Todocontext'
+import Todoform from './Components/Todoform'
+import Todoitem from './Components/Todoitem'
+
 
 
 function App() {
@@ -28,13 +29,13 @@ function App() {
     // now to get all previous todo items added by user even after page reload we will use local storage and page relaod hote hi vo sab dikh jaaye uske liye we can use useEffect Hook
 
     useEffect(() => {
-      const todos = JSON.parse(localStorage.getItem('todos')) ;
+      const savedTodos = JSON.parse(localStorage.getItem('todos')) ;
       // todos is an array of objects and we are getting it from local storage and parsing it to convert it back to an array of objects
       // localStorage se data lete waqt hamesha string mein hota hai islie
       // JSON.parse() se hum usko array mein convert karte hain
 
-      if(todos && todos.length > 0){
-        setTodos(todos);
+      if(savedTodos && savedTodos.length > 0){
+        setTodos(savedTodos);
       }
 
 
@@ -47,7 +48,7 @@ function App() {
 
     } , [todos]);
 
-    
+
 
 
  
@@ -60,9 +61,13 @@ function App() {
                     <h1 className="text-2xl font-bold text-center mb-8 mt-2">Manage Your Todos</h1>
                     <div className="mb-4">
                         {/* Todo form goes here */} 
+                        <Todoform />
                     </div>
                     <div className="flex flex-wrap gap-y-3">
                         {/*Loop and Add TodoItem here */}
+                        {todos.map((todo) => (
+                            <Todoitem key={todo.id} todo={todo} />
+                        ))}
                     </div>
                 </div>
             </div>
