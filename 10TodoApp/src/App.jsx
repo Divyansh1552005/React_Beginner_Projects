@@ -1,15 +1,72 @@
-import { useState } from 'react'
+import { useState, useEffect, use } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+import { TodoProvider } from './Context/Todocontext'
+
 
 function App() {
-  const [count, setCount] = useState(0)
+    const [todos, setTodos] = useState([]);
 
+    const addTodo = (todo) => {
+        setTodos((prev) => [{id: Date.now(), ...todo}, ...prev])
+    }
+
+    const updateTodo = (id, todo) => {
+        setTodos((prev) => prev.map((prevTodo) => (prevTodo.id === id ? todo : prevTodo)))
+    }
+    // todo is an array and also ye prev ka access islie le rahe coz agar isrf setTodo(todo) toh pura array replace ho jayega.
+
+    const deleteTodo = (id) => { 
+        setTodos((prev) => prev.filter((todo) => todo.id !== id)) // we are making a new array without the todo that has the id we want to delete
+    }
+
+    const toggleComplete = (id) => {
+        setTodos((prev) => prev.map((prevTodo) => prevTodo.id === id ? {...prevTodo, completed: !prevTodo.completed} : prevTodo))
+    }
+
+    // now to get all previous todo items added by user even after page reload we will use local storage and page relaod hote hi vo sab dikh jaaye uske liye we can use useEffect Hook
+
+    useEffect(() => {
+      const todos = JSON.parse(localStorage.getItem('todos')) ;
+      // todos is an array of objects and we are getting it from local storage and parsing it to convert it back to an array of objects
+      // localStorage se data lete waqt hamesha string mein hota hai islie
+      // JSON.parse() se hum usko array mein convert karte hain
+
+      if(todos && todos.length > 0){
+        setTodos(todos);
+      }
+
+
+    } , []);
+
+    // setting item in local storage
+    useEffect(() => {
+      localStorage.setItem('todos', JSON.stringify(todos));
+      // JSON.stringify() se hum array of objects ko string mein convert karte hain taki local storage mein store kar sake
+
+    } , [todos]);
+
+    
+
+
+ 
   return (
-    <>
+    <TodoProvider value={{todos,addTodo , deleteTodo, updateTodo, toggleComplete}}>
       <h1 className='bg-gray-500 underline font-bold'> To-do Application with Context API and Local Storage</h1>
-    </>
+
+      <div className="bg-[#172842] min-h-screen py-8">
+                <div className="w-full max-w-2xl mx-auto shadow-md rounded-lg px-4 py-3 text-white">
+                    <h1 className="text-2xl font-bold text-center mb-8 mt-2">Manage Your Todos</h1>
+                    <div className="mb-4">
+                        {/* Todo form goes here */} 
+                    </div>
+                    <div className="flex flex-wrap gap-y-3">
+                        {/*Loop and Add TodoItem here */}
+                    </div>
+                </div>
+            </div>
+    </TodoProvider>
   )
 }
 
