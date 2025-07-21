@@ -3,14 +3,24 @@ import './App.css'
 import { TodoProvider } from './Context/Todocontext'
 import Todoform from './Components/Todoform'
 import Todoitem from './Components/Todoitem'
+import Sidebar from './Components/Sidebar'
 
 
 
 function App() {
     const [todos, setTodos] = useState([]);
+    // New state for managing active category filter
+    const [activeCategory, setActiveCategory] = useState('all'); // Default to show all tasks
+    // New state for sidebar visibility on mobile
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
     const addTodo = (todo) => {
-        setTodos((prev) => [{id: Date.now(), ...todo}, ...prev])
+        // Add todo with current active category as default, but allow override from form
+        const todoWithCategory = {
+            ...todo,
+            category: todo.category || activeCategory // Use form category or fallback to active category
+        };
+        setTodos((prev) => [{id: Date.now(), ...todoWithCategory}, ...prev])
     }
 
     const updateTodo = (id, todo) => {
@@ -26,8 +36,29 @@ function App() {
         setTodos((prev) => prev.map((prevTodo) => prevTodo.id === id ? {...prevTodo, completed: !prevTodo.completed} : prevTodo))
     }
 
+    // Function to get todos filtered by active category
+    const getFilteredTodos = () => {
+        if (activeCategory === 'all') {
+            return todos; // Return all todos when "all" category is selected
+        }
+        return todos.filter(todo => todo.category === activeCategory);
+    };
+
+    // Function to handle category change
+    const handleCategoryChange = (category) => {
+        setActiveCategory(category);
+        // Removed auto-hide behavior - sidebar stays open after category selection
+    };
+
+    // Function to toggle sidebar on mobile
+    const toggleSidebar = () => {
+        setIsSidebarOpen(!isSidebarOpen);
+    };
+
     // now to get all previous todo items added by user even after page reload we will use local storage and page relaod hote hi vo sab dikh jaaye uske liye we can use useEffect Hook
 
+    // we are using useEffect to get the todos from local storage when the component mounts
+    // and also to set the todos in local storage when the todos state changes
     useEffect(() => {
       const savedTodos = JSON.parse(localStorage.getItem('todos')) ;
       // todos is an array of objects and we are getting it from local storage and parsing it to convert it back to an array of objects
@@ -49,50 +80,139 @@ function App() {
     } , [todos]);
 
 
+    // Get filtered todos based on active category
+    const filteredTodos = getFilteredTodos();
 
+    // Get category display information
+    const getCategoryInfo = () => {
+        const categoryMap = {
+            'all': { name: 'All Tasks', icon: '📋', color: 'text-gray-300' },
+            'important': { name: 'Important Tasks', icon: '⭐', color: 'text-red-400' },
+            'daily': { name: 'Daily Tasks', icon: '📅', color: 'text-blue-400' },
+            'future': { name: 'Future Tasks', icon: '🎯', color: 'text-purple-400' }
+        };
+        return categoryMap[activeCategory] || categoryMap['daily'];
+    };
 
  
   return (
-    <TodoProvider value={{todos,addTodo , deleteTodo, updateTodo, toggleComplete}}>
-      <h1 className='text-white text-4xl text-center py-4 rounded-2xl font-bold bg-[#172842] shadow-md shadow-blue-500/20 border border-blue-400/10' style={{textShadow: '0 0 5px #3b82f6'}}>
+    <TodoProvider value={{
+        todos,
+        addTodo, 
+        deleteTodo, 
+        updateTodo, 
+        toggleComplete,
+        activeCategory,
+        setActiveCategory: handleCategoryChange,
+        getFilteredTodos,
+        isSidebarOpen,
+        toggleSidebar
+    }}>
+      {/* Main Header */}
+      <h1 className='text-white text-2xl md:text-4xl text-center py-4 rounded-2xl font-bold bg-[#172842] shadow-md shadow-blue-500/20 border border-blue-400/10' style={{textShadow: '0 0 5px #3b82f6'}}>
         Task Management Application
       </h1>
 
-      <div className="bg-[#172842] min-h-screen py-4 rounded-2xl">
-                <div className="w-full max-w-2xl mx-auto shadow-md rounded-lg px-4 py-3 text-white">
-                    <h1 className="text-2xl font-bold text-center mb-8 mt-2">Manage Tasks Efficiently</h1>
-                    <div className="mb-4">
-                        {/* Todo form goes here */} 
-                        <Todoform />
-                    </div>
-                    
-                    {/* Task Count Display */}
-                    {todos.length > 0 && (
-                        <div className="mb-4 p-3 bg-blue-900/30 rounded-lg border border-blue-700/30">
-                            <div className="flex justify-between items-center text-sm">
-                                <span className="text-blue-200">
-                                    Active: {todos.filter(todo => !todo.completed).length}
-                                </span>
-                                <span className="text-blue-200">
-                                    Completed: {todos.filter(todo => todo.completed).length}
-                                </span>
-                                <span className="text-blue-200">
-                                    Total: {todos.length}
-                                </span>
-                            </div>
-                        </div>
-                    )}
-                    
-                    <div className="space-y-3">
-                        {/*Loop and Add TodoItem here */}
-                        {todos.map((todo) => (
-                            <div key={todo.id} className="w-full">
-                                <Todoitem todo={todo} />
-                            </div>
-                        ))}
-                    </div>
-                </div>
+      {/* Main Layout Container */}
+      <div className="flex bg-[#172842] min-h-screen rounded-2xl overflow-hidden relative">
+        {/* Mobile Overlay - Only on mobile when sidebar is open */}
+        {isSidebarOpen && (
+          <div 
+            className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+            onClick={() => setIsSidebarOpen(false)}
+          ></div>
+        )}
+
+        {/* Sidebar - Properly collapsible on all screen sizes */}
+        <div className={`
+          ${isSidebarOpen ? 'w-full lg:w-[28rem] fixed lg:relative inset-0 lg:inset-auto' : 'w-0 lg:w-16'} 
+          transition-all duration-300 ease-in-out
+          bg-[#172842] border-r border-gray-700/30
+          z-50 lg:z-auto
+          ${isSidebarOpen ? '' : 'lg:flex-shrink-0'}
+        `}>
+          <Sidebar />
+        </div>
+        
+        {/* Main Content Area */}
+        <div className="flex-1 py-4 px-3 md:px-6 w-full">
+          {/* Header with Menu Button - Available on all screen sizes */}
+          <div className="mb-4">
+            <button
+              onClick={toggleSidebar}
+              className="flex items-center gap-2 px-4 py-2 bg-white/10 rounded-lg border border-white/20 text-white hover:bg-white/20 transition-all duration-300"
+              title="Toggle Sidebar"
+            >
+              {/* Hamburger Icon - 3 parallel lines */}
+              <div className="w-5 h-5 flex flex-col justify-between">
+                <div className="w-full h-0.5 bg-current transition-all duration-300"></div>
+                <div className="w-full h-0.5 bg-current transition-all duration-300"></div>
+                <div className="w-full h-0.5 bg-current transition-all duration-300"></div>
+              </div>
+              <span className="hidden sm:inline">Menu</span>
+            </button>
+          </div>
+
+          <div className="w-full max-w-4xl mx-auto">
+            {/* Category Header */}
+            <div className="mb-6">
+              <div className="flex items-center gap-3 mb-2">
+                <span className="text-2xl md:text-3xl">{getCategoryInfo().icon}</span>
+                <h1 className={`text-xl md:text-3xl font-bold ${getCategoryInfo().color}`}>
+                  {getCategoryInfo().name}
+                </h1>
+              </div>
+              <p className="text-gray-400 text-sm md:text-base">
+                Showing {filteredTodos.length} task{filteredTodos.length !== 1 ? 's' : ''} in this category
+              </p>
             </div>
+
+            {/* Todo Form */}
+            <div className="mb-6">
+              <Todoform />
+            </div>
+            
+            {/* Task Count Display - Updated for filtered todos */}
+            {filteredTodos.length > 0 && (
+              <div className="mb-4 p-3 bg-blue-900/30 rounded-lg border border-blue-700/30">
+                <div className="flex justify-between items-center text-xs md:text-sm">
+                  <span className="text-blue-200">
+                    Active: {filteredTodos.filter(todo => !todo.completed).length}
+                  </span>
+                  <span className="text-blue-200">
+                    Completed: {filteredTodos.filter(todo => todo.completed).length}
+                  </span>
+                  <span className="text-blue-200">
+                    Total: {filteredTodos.length}
+                  </span>
+                </div>
+              </div>
+            )}
+            
+            {/* Todo Items - Now showing filtered todos */}
+            <div className="space-y-3">
+              {filteredTodos.length > 0 ? (
+                filteredTodos.map((todo) => (
+                  <div key={todo.id} className="w-full">
+                    <Todoitem todo={todo} />
+                  </div>
+                ))
+              ) : (
+                /* Empty state when no todos in current category */
+                <div className="text-center py-8 md:py-12">
+                  <div className="text-4xl md:text-6xl mb-4">{getCategoryInfo().icon}</div>
+                  <h3 className="text-lg md:text-xl font-semibold text-gray-300 mb-2">
+                    No {getCategoryInfo().name.toLowerCase()} yet
+                  </h3>
+                  <p className="text-gray-500 text-sm md:text-base">
+                    Add your first task to get started!
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
             
             {/* Footer */}
             <footer className="bg-[#172842] border-t border-gray-700/30 py-8 mt-8">

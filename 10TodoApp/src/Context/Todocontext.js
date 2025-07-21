@@ -7,6 +7,7 @@ export const TodoContext = createContext({
             id: 1,
             todo : "Todo 1",
             description: "Sample description for the todo",
+            category: "daily", // Category field: "important", "daily", "future"
             completed: false
         }
     ],
@@ -14,11 +15,13 @@ export const TodoContext = createContext({
     deleteTodo: (id) => {},
     updateTodo: (id, updatedTodo) => {},
     toggleComplete: (id) => {},
+    // New category-related functions
+    activeCategory: "daily", // Currently selected category filter
+    setActiveCategory: (category) => {}, // Function to change active category
+    getFilteredTodos: () => {}, // Function to get todos filtered by active category
+    
 
-
-});
-
-export const useTodo = () =>{
+});export const useTodo = () =>{
      return useContext(TodoContext);
 }
 

@@ -5,8 +5,22 @@ import { useTodo } from '../Context';
 function Todoform() {
     const [todo , setTodo] = useState(""); // this is for individual todo item
     const [description, setDescription] = useState(""); // this is for todo description
+    // New state for category selection
+    const [category, setCategory] = useState("daily"); // Default to daily category
 
-    const {addTodo} = useTodo(); // destructure the context to get the addTodo function
+    const {addTodo, activeCategory} = useTodo(); // destructure the context to get the addTodo function and active category
+
+    // Set the form category to match the active category when it changes
+    React.useEffect(() => {
+        setCategory(activeCategory);
+    }, [activeCategory]);
+
+    // Category options configuration
+    const categoryOptions = [
+        { id: 'important', label: 'Important', icon: '⭐', color: 'text-red-400' },
+        { id: 'daily', label: 'Daily', icon: '📅', color: 'text-blue-400' },
+        { id: 'future', label: 'Future', icon: '🎯', color: 'text-purple-400' }
+    ];
 
     const add = (e) =>{
         e.preventDefault();
@@ -15,10 +29,12 @@ function Todoform() {
             return;
         }
 
-        addTodo({todo, description, completed: false}); // call the addTodo function from context with the todo object
+        // Add todo with selected category
+        addTodo({todo, description, category, completed: false}); // Include category in todo object
 
         setTodo(""); // reset the input field after adding the todo
         setDescription(""); // reset the description field
+        // Keep the same category selected for next todo
     }
 
     return (
@@ -49,10 +65,34 @@ function Todoform() {
                     onChange={(e) => setDescription(e.target.value)}
                 />
             </div>
+
+            {/* Category Selection */}
+            <div className="relative">
+                <label className="block text-gray-300 text-sm font-medium mb-3">
+                    🏷️ Task Category
+                </label>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    {categoryOptions.map((option) => (
+                        <button
+                            key={option.id}
+                            type="button"
+                            onClick={() => setCategory(option.id)}
+                            className={`p-3 rounded-xl border transition-all duration-300 flex flex-row sm:flex-col items-center justify-center gap-2 ${
+                                category === option.id
+                                    ? `bg-gray-700/60 border-gray-500/60 ${option.color}`
+                                    : 'bg-gray-800/30 border-gray-600/30 text-gray-400 hover:bg-gray-700/40 hover:border-gray-500/40'
+                            }`}
+                        >
+                            <span className="text-xl sm:text-2xl">{option.icon}</span>
+                            <span className="text-sm font-medium">{option.label}</span>
+                        </button>
+                    ))}
+                </div>
+            </div>
             
             {/* Add Button */}
             <button type="submit" className="w-full rounded-xl py-4 bg-green-600 hover:bg-green-700 text-white font-semibold transition-all duration-300 shadow-md hover:shadow-lg hover:shadow-green-500/20 transform hover:scale-[1.02] active:scale-[0.98]">
-                ➕ Add Task
+                ➕ Add to {categoryOptions.find(opt => opt.id === category)?.label} Tasks
             </button>
         </form>
     );
