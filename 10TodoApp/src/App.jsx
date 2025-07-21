@@ -143,7 +143,7 @@ function App() {
                         
                         {/* Project Info */}
                         <p className="text-gray-500 text-sm">
-                            Built with React and Tailwind CSS
+                            Built using React and Tailwind CSS
                         </p>
                     </div>
                 </div>
