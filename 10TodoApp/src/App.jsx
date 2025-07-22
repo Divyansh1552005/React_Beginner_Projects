@@ -9,10 +9,12 @@ import Sidebar from './Components/Sidebar'
 
 function App() {
     const [todos, setTodos] = useState([]);
-    // New state for managing active category filter
+    // State for managing active category filter
     const [activeCategory, setActiveCategory] = useState('all'); // Default to show all tasks
-    // New state for sidebar visibility on mobile
+    // State for sidebar visibility on mobile
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    // State for search functionality
+    const [searchQuery, setSearchQuery] = useState(''); // Stores current search text
 
     const addTodo = (todo) => {
         // Add todo with current active category as default, but allow override from form
@@ -36,12 +38,27 @@ function App() {
         setTodos((prev) => prev.map((prevTodo) => prevTodo.id === id ? {...prevTodo, completed: !prevTodo.completed} : prevTodo))
     }
 
-    // Function to get todos filtered by active category
+    // Function to get todos filtered by active category AND search query
     const getFilteredTodos = () => {
-        if (activeCategory === 'all') {
-            return todos; // Return all todos when "all" category is selected
+        let filtered = todos; // Start with all todos
+        
+        // Step 1: Filter by category (existing logic)
+        if (activeCategory !== 'all') {
+            filtered = filtered.filter(todo => todo.category === activeCategory);
         }
-        return todos.filter(todo => todo.category === activeCategory);
+        
+        // Step 2: Filter by search query (new logic)
+        if (searchQuery.trim() !== '') {  // Only search if there's actual text
+            filtered = filtered.filter(todo => 
+                todo.todo.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                (todo.description && todo.description.toLowerCase().includes(searchQuery.toLowerCase()))
+            );
+            // .toLowerCase(): Makes search case-insensitive
+            // .includes(): Checks if search text exists in todo text or description
+            // .trim(): Removes extra spaces from search query
+        }
+        
+        return filtered; // Return final filtered array
     };
 
     // Function to handle category change
@@ -106,7 +123,10 @@ function App() {
         setActiveCategory: handleCategoryChange,
         getFilteredTodos,
         isSidebarOpen,
-        toggleSidebar
+        toggleSidebar,
+        // Search functionality
+        searchQuery,           // Current search text
+        setSearchQuery,        // Function to update search text
     }}>
       {/* Main Header */}
       <h1 className='text-white text-2xl md:text-4xl text-center py-4 rounded-2xl font-bold bg-[#172842] shadow-md shadow-blue-500/20 border border-blue-400/10' style={{textShadow: '0 0 5px #3b82f6'}}>
@@ -154,6 +174,32 @@ function App() {
           </div>
 
           <div className="w-full max-w-4xl mx-auto">
+            {/* Search Box - Top Priority Position */}
+            <div className="mb-6">
+              <div className="relative max-w-md mx-auto">
+                <input
+                  type="text"
+                  placeholder="Search your tasks..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full p-3 pl-10 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-400/50 transition-all duration-300"
+                />
+                {/* Search Icon */}
+                <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+                  🔍
+                </div>
+              </div>
+              {/* Search Results Info */}
+              {searchQuery && (
+                <p className="text-center text-sm text-gray-400 mt-2">
+                  Searching for: "<span className="text-blue-400 font-medium">{searchQuery}</span>"
+                  <span className="ml-2 text-xs">
+                    ({filteredTodos.length} result{filteredTodos.length !== 1 ? 's' : ''})
+                  </span>
+                </p>
+              )}
+            </div>
+
             {/* Category Header */}
             <div className="mb-6">
               <div className="flex items-center gap-3 mb-2">

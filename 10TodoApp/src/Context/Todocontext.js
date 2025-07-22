@@ -15,13 +15,18 @@ export const TodoContext = createContext({
     deleteTodo: (id) => {},
     updateTodo: (id, updatedTodo) => {},
     toggleComplete: (id) => {},
-    // New category-related functions
+    // Category-related functions
     activeCategory: "daily", // Currently selected category filter
     setActiveCategory: (category) => {}, // Function to change active category
     getFilteredTodos: () => {}, // Function to get todos filtered by active category
+    // Search-related functions
+    searchQuery: "", // Current search text
+    setSearchQuery: (query) => {}, // Function to update search text
     
 
-});export const useTodo = () =>{
+});
+
+export const useTodo = () =>{
      return useContext(TodoContext);
 }
 

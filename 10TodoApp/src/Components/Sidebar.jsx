@@ -3,7 +3,7 @@ import { useTodo } from '../Context'
 
 function Sidebar() {
     // Get context functions and state
-    const { todos, activeCategory, setActiveCategory, isSidebarOpen, toggleSidebar } = useTodo();
+    const { todos, activeCategory, setActiveCategory, isSidebarOpen, toggleSidebar, searchQuery, setSearchQuery } = useTodo();
 
     // Define category configuration with icons, colors, and labels
     const categories = [
@@ -88,7 +88,7 @@ function Sidebar() {
                     </div>
 
                     {/* Category List */}
-                    <div className="space-y-3 md:space-y-4 flex-1">
+                    <div className="space-y-3 md:space-y-4">
                         {categories.map((category) => {
                             // Check if this category is currently active
                             const isActive = activeCategory === category.id;
@@ -143,8 +143,8 @@ function Sidebar() {
                         })}
                     </div>
 
-                    {/* Sidebar Footer */}
-                    <div className="mt-6 md:mt-10 pt-5 md:pt-8 border-t border-gray-700/30">
+                    {/* Task Summary */}
+                    <div className="mt-6 md:mt-8 pt-4 md:pt-6 border-t border-gray-700/30">
                         <div className="text-center text-gray-400 text-sm md:text-base">
                             <p className="font-medium">Total Tasks: {todos.length}</p>
                             <p className="mt-2">Completed: {todos.filter(todo => todo.completed).length}</p>
