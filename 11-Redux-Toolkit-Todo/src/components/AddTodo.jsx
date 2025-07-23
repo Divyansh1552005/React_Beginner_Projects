@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { addTodo } from '../features/todoSlice'
+import { addTodo } from '../features/todo/todoslice'
 import { nanoid } from '@reduxjs/toolkit'
 
 function AddTodo() {
@@ -10,7 +10,7 @@ function AddTodo() {
 
     const addTodoHandler = (e) => {
         e.preventDefault();
-        dispatch(addTodo(input));
+        dispatch(addTodo({title: input}));
         setInput(''); // Clear the input field after adding the todo
     }
 
