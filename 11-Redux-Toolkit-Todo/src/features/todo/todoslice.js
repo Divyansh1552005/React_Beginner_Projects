@@ -55,4 +55,4 @@ export default todoSlice.reducer;
 // The reducer will be used in the store configuration 
 
 
-// in reducers properties and functions are defined
+// in reducers properties and functions are definedThe ￼￼state￼￼ is the current data (or a snapshot of data) that a reducer manages.
