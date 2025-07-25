@@ -7,7 +7,8 @@ import PasswordGeneratorFAQs from './Components/PasswordGeneratorFAQs';
 
 function App() {
   // defining all the variables states we will need
-  const [length, setlength] = useState(6);
+  const [length, setlength] = useState(12);
+  const [inputValue, setInputValue] = useState('12'); // Separate state for input display
   const [numberAllowed, setNumberAllowed] = useState(false);
   const [charAllowed, setcharAllowed] = useState(false);
   const [password, setpassword] = useState("")
@@ -184,18 +185,66 @@ function App() {
                 <div className='flex flex-wrap text-base gap-4 justify-center items-center bg-gray-700 rounded-lg p-4 border border-gray-600'>
                   
                   {/* Length Control */}
-                  <div className='flex items-center gap-x-3 bg-gray-600 rounded-lg px-4 py-3 border border-gray-500 shadow-sm'>
+                  <div className='flex flex-col items-center gap-3 bg-gray-600 rounded-lg px-4 py-3 border border-gray-500 shadow-sm min-w-[200px]'>
+                    <label className='text-gray-200 font-medium text-center'>
+                      Password Length: <span className='text-cyan-400 font-semibold'>{length}</span>
+                    </label>
+                    
+                    {/* Min/Max Length Indicator */}
+                    <div className="flex justify-between w-full text-xs text-gray-400">
+                      <span>Min: 8</span>
+                      <span>Max: 100</span>
+                    </div>
+                    
+                    {/* Slider */}
                     <input 
                       type="range"
                       min={8}
                       max={100}
                       value={length}
-                      className='cursor-pointer accent-cyan-500 h-2 w-24'
-                      onChange={(e) => {setlength(e.target.value)}}
+                      className='cursor-pointer accent-cyan-500 h-2 w-full'
+                      onChange={(e) => {
+                        const newLength = e.target.value;
+                        setlength(newLength);
+                        setInputValue(newLength);
+                      }}
                     />
-                    <label className='text-gray-200 font-medium min-w-[80px]'>
-                      Length: <span className='text-cyan-400 font-semibold'>{length}</span>
-                    </label>
+                    
+                    {/* Custom Input Box */}
+                    <div className="flex items-center gap-2 w-full">
+                      <input
+                        type="text"
+                        value={inputValue}
+                        onChange={(e) => {
+                          const inputVal = e.target.value;
+                          setInputValue(inputVal);
+                          
+                          // If it's a valid number, update the length
+                          const numValue = parseInt(inputVal);
+                          if (!isNaN(numValue) && numValue >= 8 && numValue <= 100) {
+                            setlength(numValue);
+                          }
+                        }}
+                        onBlur={(e) => {
+                          const inputVal = e.target.value;
+                          const numValue = parseInt(inputVal);
+                          
+                          if (inputVal === '' || isNaN(numValue) || numValue < 8) {
+                            setlength(8);
+                            setInputValue('8');
+                          } else if (numValue > 100) {
+                            setlength(100);
+                            setInputValue('100');
+                          } else {
+                            setlength(numValue);
+                            setInputValue(numValue.toString());
+                          }
+                        }}
+                        className="w-20 px-2 py-1 text-center bg-gray-700 text-gray-200 border border-gray-500 rounded focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 outline-none"
+                        placeholder="8-100"
+                      />
+                      <span className="text-gray-400 text-sm">chars</span>
+                    </div>
                   </div>
 
                   {/* Numbers Checkbox */}
