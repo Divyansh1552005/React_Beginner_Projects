@@ -60,7 +60,7 @@ export default function PasswordGeneratorFAQs() {
             Password generator FAQs
           </h1>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            Questions about this random password generator? Answers below!
+            Questions about our random password generator? Answers below!
           </p>
         </div>
 
