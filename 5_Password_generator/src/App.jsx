@@ -291,7 +291,7 @@ function App() {
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-center">
             <p className="text-gray-300 text-lg mb-4">
-              Made with ❤️ by <span className="font-semibold text-transparent bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text">Divyansh</span> using React
+              Made with ❤️ by <span className="font-semibold text-transparent bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text">Divyansh</span>
             </p>
             
             {/* Social Links */}
