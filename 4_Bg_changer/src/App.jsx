@@ -6,7 +6,10 @@ import './App.css'
 function App() {
   const [color , setColor] = useState("pink");
   
-  
+  // Single function to handle color changes
+  const changeColor = (newColor) => {
+    setColor(newColor);
+  };
   
   return (
     <div className='w-full h-screen duration-100' style={{backgroundColor : color}}>
