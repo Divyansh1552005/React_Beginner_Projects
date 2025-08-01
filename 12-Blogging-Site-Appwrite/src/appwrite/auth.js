@@ -1,5 +1,5 @@
 import conf from "../conf/conf";
-import { Client, Account, Databases, Storage, ID } from "appwrite";
+import { Client, Account, ID } from "appwrite";
 
 export class AuthService{
     client = new Client(); // idhar hamne directly nahi banaya .endpoint and other but in constructor becoz hame ye client and account tabhi toh bane hue chayie jab koi account banaye ie constructor use karo
@@ -22,7 +22,7 @@ export class AuthService{
     
 }   
 
-    async createAccount(email, password, name) {
+    async create_account(email, password, name) {
         try{    
             // always study from documnetation of appwrite
             // create account takes 3 parameters email, password and name
@@ -63,7 +63,7 @@ export class AuthService{
     // also suppose if user is not logged in and he reaches home page then we can redirect him to login page
     // so we can use this method to check if user is logged in or not
     // if user is logged in then we can return the user account details else we can return null
-    async getCurrentUser(){
+    async get_current_user(){
         try{
             return await this.account.get();
             // this will return the user account details
