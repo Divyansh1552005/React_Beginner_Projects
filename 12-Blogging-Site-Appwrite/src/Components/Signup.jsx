@@ -19,7 +19,7 @@ function Signup() {
             if (userData) {
                 const userData = await authService.get_current_user()
                 if(userData) dispatch(login(userData));
-                navigate("/")
+                navigate("/") 
             }
         } catch (error) {
             setError(error.message)
@@ -51,7 +51,7 @@ function Signup() {
                         <Input
                         label="Full Name: "
                         placeholder="Enter your full name"
-                        {...register("name", {
+                         {...register("name", {
                             required: true,
                         })}
                         />
@@ -76,7 +76,7 @@ function Signup() {
                         />
                         <Button type="submit" className="w-full">
                             Create Account
-                        </Button>
+                        </Button> 
                     </div>
                 </form>
             </div>
