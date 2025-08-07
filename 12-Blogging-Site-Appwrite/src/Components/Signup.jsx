@@ -13,6 +13,7 @@ function Signup() {
     const {register, handleSubmit} = useForm()
 
     const create = async(data) => {
+        // Reset error message before making the request, this is done to ensure that any previous error is cleared
         setError("")
         try {
             const userData = await authService.create_account(data)
@@ -53,6 +54,14 @@ function Signup() {
                         placeholder="Enter your full name"
                          {...register("name", {
                             required: true,
+                            minLength: {
+                                value: 3,
+                                message: "Name must be at least 3 characters long"
+                            },
+                            maxLength: {
+                                value: 50,
+                                message: "Name must be less than 50 characters long"
+                            }
                         })}
                         />
                         <Input
@@ -62,7 +71,7 @@ function Signup() {
                         {...register("email", {
                             required: true,
                             validate: {
-                                matchPatern: (value) => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value) ||
+                                matchPattern: (value) => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value) ||
                                 "Email address must be a valid address",
                             }
                         })}
