@@ -78,7 +78,7 @@ function About() {
               </p>
             </div>
             
-            <div className='bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-3xl p-8 md:p-12 shadow-xl'>
+            {/* <div className='bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-3xl p-8 md:p-12 shadow-xl'>
               <div className='grid md:grid-cols-2 gap-12 items-center'>
                 <div>
                   <h3 className='text-2xl font-bold text-white mb-4'>Our Story</h3>
@@ -98,7 +98,7 @@ function About() {
                   <div className='text-gray-300'>Stories Shared</div>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </Container>
       </section>

@@ -6,6 +6,20 @@ import parse from "html-react-parser";
 import { useSelector } from "react-redux";
 import { toast } from 'react-toastify';
 
+// Function to get author name from userId (same as in PostCard)
+const getAuthorName = (userId) => {
+    if (!userId) return 'Anonymous Author';
+    
+    // Generate a consistent random number from userId for anonymous display
+    let hash = 0;
+    for (let i = 0; i < userId.length; i++) {
+        hash = userId.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    // Convert to positive number and limit to 4 digits
+    const randomNum = Math.abs(hash) % 9999 + 1;
+    return `User ${randomNum}`;
+};
+
 export default function Post() {
     const [post, setPost] = useState(null);
     const [relatedPosts, setRelatedPosts] = useState([]);
@@ -22,9 +36,26 @@ export default function Post() {
             appwriteService.get_post(slug).then((post) => {
                 if (post) {
                     setPost(post);
-                    // Calculate reading time (rough estimate: 200 words per minute)
-                    const wordCount = post.content.replace(/<[^>]*>/g, '').split(' ').length;
-                    setReadingTime(Math.ceil(wordCount / 200));
+                    // Calculate reading time based on character count (same as PostCard)
+                    const plainText = post.content.replace(/<[^>]*>/g, '').trim();
+                    const charCount = plainText.length;
+                    
+                    let readingTimeMinutes;
+                    if (charCount < 500) {
+                        readingTimeMinutes = 1;
+                    } else if (charCount < 1000) {
+                        readingTimeMinutes = 2;
+                    } else if (charCount < 1500) {
+                        readingTimeMinutes = 3;
+                    } else if (charCount < 2000) {
+                        readingTimeMinutes = 4;
+                    } else if (charCount < 2500) {
+                        readingTimeMinutes = 5;
+                    } else {
+                        readingTimeMinutes = Math.ceil(charCount / 500);
+                    }
+                    
+                    setReadingTime(readingTimeMinutes);
                     
                     // Fetch related posts
                     fetchRelatedPosts();
@@ -143,10 +174,10 @@ export default function Post() {
                                 <div className="flex items-center space-x-2">
                                     <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-blue-800 rounded-full flex items-center justify-center">
                                         <span className="text-white font-semibold text-xs">
-                                            {userData?.name?.charAt(0) || 'A'}
+                                            {getAuthorName(post.userId).charAt(0)}
                                         </span>
                                     </div>
-                                    <span className="font-medium text-gray-300">{userData?.name || 'Anonymous'}</span>
+                                    <span className="font-medium text-gray-300">{getAuthorName(post.userId)}</span>
                                 </div>
                                 <span>•</span>
                                 <time className="text-sm">{formatDate(post.$createdAt)}</time>

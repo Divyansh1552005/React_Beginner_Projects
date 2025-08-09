@@ -6,7 +6,10 @@ import { useSelector } from 'react-redux'
 
 function Home() {
     const [posts, setPosts] = useState([])
+    const [sortedPosts, setSortedPosts] = useState([])
+    const [sortBy, setSortBy] = useState('latest')
     const authStatus = useSelector((state) => state.auth.status)
+    const userData = useSelector((state) => state.auth.userData)
 
     useEffect(() => {
         appwriteService.get_all_posts([]).then((posts) => {
@@ -15,6 +18,28 @@ function Home() {
             }
         })
     }, [])
+
+    // Sort posts whenever posts or sortBy changes
+    useEffect(() => {
+        let sorted = [...posts];
+        
+        switch (sortBy) {
+            case 'latest':
+                sorted.sort((a, b) => new Date(b.$createdAt) - new Date(a.$createdAt));
+                break;
+            case 'oldest':
+                sorted.sort((a, b) => new Date(a.$createdAt) - new Date(b.$createdAt));
+                break;
+            default:
+                sorted = posts;
+        }
+        
+        setSortedPosts(sorted);
+    }, [posts, sortBy])
+
+    const handleSortChange = (e) => {
+        setSortBy(e.target.value);
+    }
 
     return (
         <div className='min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900'>
@@ -126,11 +151,32 @@ function Home() {
                                 Discover the most recent posts from our community
                             </p>
                         </div>
+
+                        {/* Sort Controls */}
+                        <div className='mb-8 flex justify-center'>
+                            <div className='bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-lg p-4'>
+                                <div className='flex items-center space-x-3'>
+                                    <span className='text-sm text-gray-300'>Sort by:</span>
+                                    <select 
+                                        value={sortBy}
+                                        onChange={handleSortChange}
+                                        className='px-3 py-2 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-gray-700 text-white text-sm'
+                                    >
+                                        <option value="latest">Latest First</option>
+                                        <option value="oldest">Oldest First</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
                         
                         <div className='grid md:grid-cols-2 lg:grid-cols-3 gap-8'>
-                            {posts.slice(0, 6).map((post) => (
+                            {sortedPosts.slice(0, 6).map((post) => (
                                 <div key={post.$id} className='transform hover:-translate-y-2 transition-all duration-300'>
-                                    <PostCard {...post} />
+                                    <PostCard 
+                                        {...post} 
+                                        author={post.userId === userData?.$id ? (userData?.name || 'You') : null}
+                                        publishedDate={post.$createdAt}
+                                    />
                                 </div>
                             ))}
                         </div>

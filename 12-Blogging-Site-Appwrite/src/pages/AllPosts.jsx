@@ -2,10 +2,14 @@ import React, { useState, useEffect } from 'react'
 import { Container, PostCard } from '../Components'
 import appwriteService from "../appwrite/config";
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 function AllPosts() {
     const [posts, setPosts] = useState([])
+    const [sortedPosts, setSortedPosts] = useState([])
     const [loading, setLoading] = useState(true)
+    const [sortBy, setSortBy] = useState('latest')
+    const userData = useSelector((state) => state.auth.userData)
     
     useEffect(() => {
         appwriteService.get_all_posts([]).then((posts) => {
@@ -18,6 +22,28 @@ function AllPosts() {
             setLoading(false)
         })
     }, [])
+
+    // Sort posts whenever posts or sortBy changes
+    useEffect(() => {
+        let sorted = [...posts];
+        
+        switch (sortBy) {
+            case 'latest':
+                sorted.sort((a, b) => new Date(b.$createdAt) - new Date(a.$createdAt));
+                break;
+            case 'oldest':
+                sorted.sort((a, b) => new Date(a.$createdAt) - new Date(b.$createdAt));
+                break;
+            default:
+                sorted = posts;
+        }
+        
+        setSortedPosts(sorted);
+    }, [posts, sortBy])
+
+    const handleSortChange = (e) => {
+        setSortBy(e.target.value);
+    }
 
     if (loading) {
         return (
@@ -98,10 +124,13 @@ function AllPosts() {
                                             </div>
                                         </div>
                                         <div className='flex items-center space-x-3'>
-                                            <select className='px-4 py-2 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-gray-700 text-white'>
-                                                <option>Latest First</option>
-                                                <option>Oldest First</option>
-                                                <option>Most Popular</option>
+                                            <select 
+                                                value={sortBy}
+                                                onChange={handleSortChange}
+                                                className='px-4 py-2 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-gray-700 text-white'
+                                            >
+                                                <option value="latest">Latest First</option>
+                                                <option value="oldest">Oldest First</option>
                                             </select>
                                             <button className='p-2 text-gray-400 hover:text-blue-400 transition-colors duration-200'>
                                                 <svg className='w-5 h-5' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
@@ -120,9 +149,13 @@ function AllPosts() {
 
                             {/* Posts Grid */}
                             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
-                                {posts.map((post) => (
+                                {sortedPosts.map((post) => (
                                     <div key={post.$id} className='transform hover:-translate-y-2 transition-all duration-300'>
-                                        <PostCard {...post} />
+                                        <PostCard 
+                                            {...post} 
+                                            author={post.userId === userData?.$id ? (userData?.name || 'You') : null}
+                                            publishedDate={post.$createdAt}
+                                        />
                                     </div>
                                 ))}
                             </div>

@@ -153,7 +153,11 @@ function MyPosts() {
                             <div className='grid md:grid-cols-2 lg:grid-cols-3 gap-8'>
                                 {sortedPosts.map((post) => (
                                     <div key={post.$id} className='transform hover:-translate-y-2 transition-all duration-300'>
-                                        <PostCard {...post} />
+                                        <PostCard 
+                                            {...post} 
+                                            author={userData?.name || 'You'}
+                                            publishedDate={post.$createdAt}
+                                        />
                                     </div>
                                 ))}
                             </div>
