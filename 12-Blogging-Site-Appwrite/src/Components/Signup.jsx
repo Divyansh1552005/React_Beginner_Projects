@@ -5,6 +5,7 @@ import {login} from '../store/authSlice'
 import {Button, Input, Logo} from './index.js'
 import {useDispatch} from 'react-redux'
 import {useForm} from 'react-hook-form'
+import { toast } from 'react-toastify'
 
 function Signup() {
     const navigate = useNavigate()
@@ -15,14 +16,29 @@ function Signup() {
     const create = async(data) => {
         // Reset error message before making the request, this is done to ensure that any previous error is cleared
         setError("")
+        const toastId = toast.loading("Creating your account...")
         try {
             const userData = await authservice.create_account(data.email, data.password, data.name)
             if (userData) {
                 const userData = await authservice.get_current_user()
-                if(userData) dispatch(login({userData})); // store user data in redux with correct payload structure
-                navigate("/") 
+                if(userData) {
+                    dispatch(login({userData})); // store user data in redux with correct payload structure
+                    toast.update(toastId, {
+                        render: `Welcome to BlogSpace, ${userData.name}! 🎉`,
+                        type: "success",
+                        isLoading: false,
+                        autoClose: 3000,
+                    });
+                    navigate("/") 
+                }
             }
         } catch (error) {
+            toast.update(toastId, {
+                render: error.message || "Account creation failed. Please try again.",
+                type: "error",
+                isLoading: false,
+                autoClose: 4000,
+            });
             setError(error.message)
         }
     }

@@ -4,6 +4,7 @@ import { Button, Input, RTE, Select } from "..";
 import appwriteService from "../../appwrite/config";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { toast } from 'react-toastify';
 
 export default function PostForm({ post }) {
     const { register, handleSubmit, watch, setValue, control, getValues } = useForm({
@@ -19,33 +20,59 @@ export default function PostForm({ post }) {
     const userData = useSelector((state) => state.auth.userData);
 
     const submit = async (data) => {
-        if (post){
-            const file = data.image[0] ? await appwriteService.upload_file(data.image[0]) : null;
+        const toastId = post 
+            ? toast.loading("Updating your post...")
+            : toast.loading("Publishing your post...");
+            
+        try {
+            if (post){
+                const file = data.image[0] ? await appwriteService.upload_file(data.image[0]) : null;
 
-            if (file) {
-                appwriteService.delete_file(post.featuredImage);
-            }
+                if (file) {
+                    appwriteService.delete_file(post.featuredImage);
+                }
 
-            const dbPost = await appwriteService.update_post(post.$id, {
-                ...data,
-                featuredImage: file ? file.$id : undefined,
-            });
-
-            if (dbPost) {
-                navigate(`/post/${dbPost.$id}`);
-            }
-        } else {
-            const file = await appwriteService.upload_file(data.image[0]);
-
-            if (file) {
-                const fileId = file.$id;
-                data.featuredImage = fileId;
-                const dbPost = await appwriteService.create_post({ ...data, userId: userData.$id });
+                const dbPost = await appwriteService.update_post(post.$id, {
+                    ...data,
+                    featuredImage: file ? file.$id : undefined,
+                });
 
                 if (dbPost) {
+                    toast.update(toastId, {
+                        render: "Post updated successfully! ✨",
+                        type: "success",
+                        isLoading: false,
+                        autoClose: 3000,
+                    });
                     navigate(`/post/${dbPost.$id}`);
                 }
+            } else {
+                const file = await appwriteService.upload_file(data.image[0]);
+
+                if (file) {
+                    const fileId = file.$id;
+                    data.featuredImage = fileId;
+                    const dbPost = await appwriteService.create_post({ ...data, userId: userData.$id });
+
+                    if (dbPost) {
+                        toast.update(toastId, {
+                            render: "Post published successfully! 🎉",
+                            type: "success",
+                            isLoading: false,
+                            autoClose: 3000,
+                        });
+                        navigate(`/post/${dbPost.$id}`);
+                    }
+                }
             }
+        } catch (error) {
+            toast.update(toastId, {
+                render: error.message || "Something went wrong. Please try again.",
+                type: "error",
+                isLoading: false,
+                autoClose: 4000,
+            });
+            console.error("Post submission error:", error);
         }
     };
 

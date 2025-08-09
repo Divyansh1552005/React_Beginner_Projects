@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { logout } from '../../store/authSlice'
 import authService from '../../appwrite/auth'
+import { toast } from 'react-toastify'
 
 function UserDropdown() {
     const [isOpen, setIsOpen] = useState(false)
@@ -40,13 +41,27 @@ function UserDropdown() {
     }, [isOpen])
 
     const handleLogout = async () => {
+        const toastId = toast.loading("Signing you out...");
+        
         try {
             await authService.logout()
             dispatch(logout())
+            toast.update(toastId, {
+                render: "Successfully logged out! See you soon 👋",
+                type: "success",
+                isLoading: false,
+                autoClose: 3000,
+            });
             navigate('/')
             setShowLogoutModal(false)
             setIsOpen(false)
         } catch (error) {
+            toast.update(toastId, {
+                render: "Logout failed. Please try again.",
+                type: "error",
+                isLoading: false,
+                autoClose: 4000,
+            });
             console.error('Logout failed:', error)
         }
     }

@@ -218,7 +218,7 @@ function About() {
             </p>
             <div className='flex flex-col sm:flex-row gap-4 justify-center items-center'>
               <a 
-                href="mailto:hello@blogspace.com" 
+                href="mailto:officialdslc1552005@gmail.com" 
                 className='px-8 py-4 bg-white text-blue-700 rounded-xl font-semibold hover:bg-gray-50 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1'
               >
                 Email Us

@@ -5,6 +5,7 @@ import { Button, Input, Logo } from "./index"
 import { useDispatch } from "react-redux"
 import authservice from "../appwrite/auth"
 import { useForm } from "react-hook-form"
+import { toast } from 'react-toastify'
 
 
 function Login() {
@@ -15,15 +16,30 @@ function Login() {
 
     const login = async (data) => {
         setError("")
+        const toastId = toast.loading("Signing you in...")
         try {
             const session = await authservice.login(data.email, data.password)
             if (session) {
                 const userData = await authservice.get_current_user() // get user data after login
-                if (userData) dispatch(authLogin({userData})); // store user data in redux with correct payload structure
-                navigate("/") // login successful, redirect to home page
+                if (userData) {
+                    dispatch(authLogin({userData})); // store user data in redux with correct payload structure
+                    toast.update(toastId, {
+                        render: `Welcome back, ${userData.name}! 🎉`,
+                        type: "success",
+                        isLoading: false,
+                        autoClose: 3000,
+                    });
+                    navigate("/") // login successful, redirect to home page
+                }
             }
         }
         catch (error) {
+            toast.update(toastId, {
+                render: error.message || "Login failed. Please try again.",
+                type: "error",
+                isLoading: false,
+                autoClose: 4000,
+            });
             setError(error.message)
         }
     }
