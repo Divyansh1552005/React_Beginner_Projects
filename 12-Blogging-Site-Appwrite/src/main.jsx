@@ -8,6 +8,8 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import Home from './pages/Home.jsx'
 import About from './pages/About.jsx'
 import CommunityGuidelines from './pages/Community_guidelines.jsx'
+import Privacy from './pages/Privacy.jsx'
+import TermsConditions from './pages/Terms_conditions.jsx'
 import { AuthLayout, Login } from './Components/index.js'
 
 import AddPost from "./pages/AddPost";
@@ -34,6 +36,14 @@ const router = createBrowserRouter([
         {
             path: "/community-guidelines",
             element: <CommunityGuidelines />,
+        },
+        {
+            path: "/privacy",
+            element: <Privacy />,
+        },
+        {
+            path: "/terms",
+            element: <TermsConditions />,
         },
         {
             path: "/login",

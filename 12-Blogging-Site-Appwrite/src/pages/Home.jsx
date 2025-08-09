@@ -145,7 +145,7 @@ function Home() {
                     <Container>
                         <div className='text-center mb-16'>
                             <h2 className='text-3xl md:text-4xl font-bold text-white mb-4'>
-                                Latest Stories
+                                Latest Posts
                             </h2>
                             <p className='text-lg text-gray-300'>
                                 Discover the most recent posts from our community

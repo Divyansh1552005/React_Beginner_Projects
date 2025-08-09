@@ -160,15 +160,20 @@ function Footer() {
               © 2025 BlogSpace. All rights reserved. Made with ❤️ for writers and readers.
             </div>
             <div className="flex space-x-6 text-sm">
-              <a href="#" className="text-gray-400 hover:text-indigo-400 transition-colors duration-200">
+              <Link 
+                to="/privacy" 
+                onClick={handleNavClick}
+                className="text-gray-400 hover:text-indigo-400 transition-colors duration-200"
+              >
                 Privacy Policy
-              </a>
-              <a href="#" className="text-gray-400 hover:text-indigo-400 transition-colors duration-200">
+              </Link>
+              <Link 
+                to="/terms" 
+                onClick={handleNavClick}
+                className="text-gray-400 hover:text-indigo-400 transition-colors duration-200"
+              >
                 Terms of Service
-              </a>
-              <a href="#" className="text-gray-400 hover:text-indigo-400 transition-colors duration-200">
-                Cookie Policy
-              </a>
+              </Link>
             </div>
           </div>
         </div>
