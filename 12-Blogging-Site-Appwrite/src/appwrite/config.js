@@ -18,10 +18,23 @@ export class Service{
     async create_post({ title, slug, content, featuredImage, status, userId }){
 
         try {
+            // Validate and sanitize the document ID (slug)
+            let documentId = slug;
+            
+            // If slug is empty, too long, or contains invalid characters, use ID.unique()
+            if (!documentId || 
+                documentId.length > 36 || 
+                !/^[a-zA-Z0-9][a-zA-Z0-9._-]*$/.test(documentId)) {
+                console.log('Invalid slug detected, using ID.unique():', documentId);
+                documentId = ID.unique();
+            }
+            
+            console.log('Creating post with documentId:', documentId);
+            
             return await this.databases.createDocument(
                 conf.appwriteDatabaseId, // Database ID
                 conf.appwriteCollectionId, // Collection ID
-                slug || ID.unique(), // Document ID - use slug or generate unique ID
+                documentId, // Document ID - validated slug or unique ID
                 { 
                     title,
                     content,
@@ -137,15 +150,64 @@ export class Service{
         }
     }
 
+    // Test method to check bucket access
+    async test_bucket_access(){
+        try {
+            console.log('Testing bucket access...');
+            const files = await this.bucket.listFiles(conf.appwriteBucketId);
+            console.log('Bucket files:', files);
+            return files;
+        } catch (error) {
+            console.error("Bucket access test failed:", error);
+            return false;
+        }
+    }
+
     // this get file preview method is very fast so it needs no async/await
     get_file(fileId){
         try {
-            return this.bucket.getFilePreview(
+            console.log('get_file called with fileId:', fileId);
+            console.log('Using bucket ID:', conf.appwriteBucketId);
+            const url = this.bucket.getFilePreview(
                 conf.appwriteBucketId, // Bucket ID
-                fileId // File ID
-            )
+                fileId // File ID only - removing optional parameters to test
+            );
+            console.log('Generated URL:', url);
+            return url;
         } catch (error) {
             console.error("Appwrite service :: get_file :: error :", error);
+            return false; // if there is an error then we can return false
+        }
+    }
+
+    // Alternative method using getFileView for direct file access
+    get_file_view(fileId){
+        try {
+            console.log('get_file_view called with fileId:', fileId);
+            const url = this.bucket.getFileView(
+                conf.appwriteBucketId, // Bucket ID
+                fileId // File ID
+            );
+            console.log('Generated view URL:', url);
+            return url;
+        } catch (error) {
+            console.error("Appwrite service :: get_file_view :: error :", error);
+            return false;
+        }
+    }
+
+    // alias method for getFilePreview - same as get_file but with different naming convention
+    getFilePreview(fileId){
+        try {
+            console.log('getFilePreview called with fileId:', fileId);
+            const url = this.bucket.getFilePreview(
+                conf.appwriteBucketId, // Bucket ID
+                fileId // File ID only - removing optional parameters to test
+            );
+            console.log('Generated URL from getFilePreview:', url);
+            return url;
+        } catch (error) {
+            console.error("Appwrite service :: getFilePreview :: error :", error);
             return false; // if there is an error then we can return false
         }
     }

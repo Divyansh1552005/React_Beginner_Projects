@@ -50,12 +50,29 @@ export default function PostForm({ post }) {
     };
 
     const slugTransform = useCallback((value) => {
-        if (value && typeof value === "string")
-            return value
+        if (value && typeof value === "string") {
+            let slug = value
                 .trim()
                 .toLowerCase()
-                .replace(/[^a-zA-Z\d\s]+/g, "-")
-                .replace(/\s/g, "-");
+                .replace(/[^a-zA-Z\d\s]+/g, "-") // Replace special chars with hyphens
+                .replace(/\s+/g, "-") // Replace spaces with hyphens
+                .replace(/^[-_\.]+/, "") // Remove leading special chars
+                .replace(/[-_\.]+$/, "") // Remove trailing special chars
+                .replace(/[-_\.]{2,}/g, "-") // Replace multiple consecutive special chars with single hyphen
+                .substring(0, 36); // Limit to 36 characters
+            
+            // Ensure it doesn't start with a special character
+            if (slug && /^[^a-zA-Z0-9]/.test(slug)) {
+                slug = "post-" + slug.substring(1, 31); // Add prefix and ensure length limit
+            }
+            
+            // If slug is empty or invalid, generate a fallback
+            if (!slug || slug.length === 0) {
+                slug = "post-" + Date.now().toString().slice(-10); // Use timestamp as fallback
+            }
+            
+            return slug;
+        }
 
         return "";
     }, []);
