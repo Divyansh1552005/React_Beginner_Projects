@@ -2,16 +2,15 @@ import React, { useId } from 'react';
 
 // for this code explanation go to my obsidian notes 17.
 
-function Input(
+const Input = React.forwardRef(function Input(
   { 
     label, 
     type = 'text', 
     className = '', 
-    ref,        // pull in the ref  , why we used it is to forward the ref to the input element , like if we want to focus on the input element from parent component 
     ...props    // everything else  
-  }
-) 
-{
+  },
+  ref          // ref as second parameter when using forwardRef
+) {
   const id = useId();
 
   return (
@@ -34,7 +33,6 @@ function Input(
       />
     </div>
   );
-}
+});
 
-
-export default React.forwardRef(Input);
+export default Input;

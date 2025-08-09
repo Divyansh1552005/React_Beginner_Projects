@@ -8,27 +8,26 @@ export class Service{
 
     constructor(){
         this.client
+            .setEndpoint(conf.appwriteUrl) // Your Appwrite Endpoint - this IS required!
             .setProject(conf.appwriteProjectId); // Your Appwrite Project ID
-
-        // this.client.setEndpoint(conf.appwriteUrl); // Your Appwrite Endpoint, not needed as per latest Appwrite documentation
 
         this.databases = new Databases(this.client);
         this.bucket = new Storage(this.client);
     }   
 
-    async create_post(title , slug , content , featuredImage, status, UserId){
+    async create_post({ title, slug, content, featuredImage, status, userId }){
 
         try {
             return await this.databases.createDocument(
                 conf.appwriteDatabaseId, // Database ID
                 conf.appwriteCollectionId, // Collection ID
-                slug, // Document ID,  instead of slug we can also use 'unique()' generates a unique ID
+                slug || ID.unique(), // Document ID - use slug or generate unique ID
                 { 
                     title,
                     content,
                     featuredImage,
                     status,
-                    UserId 
+                    userId 
                 }
             )
         } 

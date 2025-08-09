@@ -9,7 +9,7 @@ export class AuthService{
 
     constructor(){
         this.client
-            // .setEndpoint(conf.appwriteUrl) // Your Appwrite Endpoint , ab shyd ye nahi hota acc to documnetation bas set project karna hota hai
+            .setEndpoint(conf.appwriteUrl) // Your Appwrite Endpoint - this IS required!
             .setProject(conf.appwriteProjectId); // Your Appwrite Project ID
 
         this.account = new Account(this.client);
@@ -49,7 +49,7 @@ export class AuthService{
 
     async login(email, password) {
         try{
-            return await this.account.createEmailSession(email, password);
+            return await this.account.createEmailPasswordSession(email, password);
             // this will create a session for the user and return the user account
 
         }
@@ -69,18 +69,17 @@ export class AuthService{
             // this will return the user account details
         }
         catch(error){
-            console.error("Error Appwrite service :: getCurrentUser :: error hai:", error);
+            console.log("Appwrite service :: get_current_user :: No active session (user not logged in)");
             // if there is an error getting the user account then we can return null
             // note that we can also directly throw error
+            return null; // if there is no user account then we can return null
         }
-
-        return null; // if there is no user account then we can return null
     }
 
 
     async logout() {
         try{
-            return await this.account.deleteSessions(); // this will delete all the sessions for the user means aur browser se bhi logout ho jayega
+            return await this.account.deleteSession('current'); // this will delete the current session
         }
         catch(error){
             console.error("Error Appwrite service :: logout :: error hai:", error);

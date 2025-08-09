@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import authService from '../appwrite/auth'
+import authservice from '../appwrite/auth'
 import {Link ,useNavigate} from 'react-router-dom'
 import {login} from '../store/authSlice'
 import {Button, Input, Logo} from './index.js'
@@ -16,10 +16,10 @@ function Signup() {
         // Reset error message before making the request, this is done to ensure that any previous error is cleared
         setError("")
         try {
-            const userData = await authService.create_account(data)
+            const userData = await authservice.create_account(data.email, data.password, data.name)
             if (userData) {
-                const userData = await authService.get_current_user()
-                if(userData) dispatch(login(userData));
+                const userData = await authservice.get_current_user()
+                if(userData) dispatch(login({userData})); // store user data in redux with correct payload structure
                 navigate("/") 
             }
         } catch (error) {

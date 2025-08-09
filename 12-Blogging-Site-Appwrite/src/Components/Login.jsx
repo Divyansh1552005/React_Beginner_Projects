@@ -16,10 +16,10 @@ function Login() {
     const login = async (data) => {
         setError("")
         try {
-            const session = await authservice.login(data)
+            const session = await authservice.login(data.email, data.password)
             if (session) {
                 const userData = await authservice.get_current_user() // get user data after login
-                if (userData) dispatch(authLogin(userData)); // store user data in redux
+                if (userData) dispatch(authLogin({userData})); // store user data in redux with correct payload structure
                 navigate("/") // login successful, redirect to home page
             }
         }
