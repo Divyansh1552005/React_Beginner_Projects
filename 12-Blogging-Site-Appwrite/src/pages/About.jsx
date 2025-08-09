@@ -8,7 +8,7 @@ function About() {
     {
       name: "Divyansh Sharma",
       role: "Developer & Owner",
-      bio: "Passionate full-stack developer creating innovative platforms for content creators and building meaningful digital experiences.",
+      bio: "Software engineering student who's coding for fun and creating things which people can use in daily life. Passionate about building meaningful digital experiences that make a difference.",
       avatar: "DS",
       gradient: "from-blue-600 to-blue-800",
       social: {
@@ -17,29 +17,6 @@ function About() {
         portfolio: "https://divyanshsharma.site/",
         instagram: "https://instagram.com/divyanshsharma1552005"
       }
-    }
-  ];
-
-  const values = [
-    {
-      icon: "💡",
-      title: "Innovation",
-      description: "We constantly evolve our platform to meet the changing needs of content creators."
-    },
-    {
-      icon: "🤝",
-      title: "Community",
-      description: "Building a supportive environment where every voice matters and every story counts."
-    },
-    {
-      icon: "🎯",
-      title: "Quality",
-      description: "Committed to providing the best tools and experience for writing and reading."
-    },
-    {
-      icon: "🌍",
-      title: "Accessibility",
-      description: "Making quality content creation and consumption available to everyone, everywhere."
     }
   ];
 
@@ -78,70 +55,54 @@ function About() {
               </p>
             </div>
             
-            {/* <div className='bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-3xl p-8 md:p-12 shadow-xl'>
-              <div className='grid md:grid-cols-2 gap-12 items-center'>
-                <div>
-                  <h3 className='text-2xl font-bold text-white mb-4'>Our Story</h3>
-                  <p className='text-gray-300 mb-6 leading-relaxed'>
-                    Founded in 2024, BlogSpace was born from a simple idea: make it easier for people to share 
-                    their thoughts and connect through writing. What started as a small project has grown into 
-                    a thriving community of writers and readers from around the world.
+            {/* Core Features */}
+            <div className='grid md:grid-cols-2 gap-8 mt-12'>
+              <div className='bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-2xl p-8 hover:shadow-lg hover:bg-gray-800/70 transition-all duration-300 transform hover:-translate-y-2'>
+                <div className='text-center'>
+                  <div className='text-5xl mb-4'>🌐</div>
+                  <h3 className='text-2xl font-bold text-white mb-4'>Sharing Information</h3>
+                  <p className='text-gray-300 leading-relaxed'>
+                    We believe in the power of knowledge sharing. Our platform makes it easy for everyone to 
+                    share their insights, experiences, and expertise with a global community, fostering learning 
+                    and growth for all.
                   </p>
-                  <p className='text-gray-600 leading-relaxed'>
-                    Today, we're proud to host thousands of stories, facilitate meaningful discussions, and 
-                    provide a space where creativity and authenticity are celebrated.
-                  </p>
-                </div>
-                <div className='bg-gradient-to-br from-indigo-100 to-purple-100 rounded-2xl p-8 text-center'>
-                  <div className='text-6xl mb-4'>📚</div>
-                  <div className='text-3xl font-bold text-blue-400 mb-2'>1000+</div>
-                  <div className='text-gray-300'>Stories Shared</div>
                 </div>
               </div>
-            </div> */}
+              
+              <div className='bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-2xl p-8 hover:shadow-lg hover:bg-gray-800/70 transition-all duration-300 transform hover:-translate-y-2'>
+                <div className='text-center'>
+                  <div className='text-5xl mb-4'>🎭</div>
+                  <h3 className='text-2xl font-bold text-white mb-4'>Anonymity Protection</h3>
+                  <p className='text-gray-300 leading-relaxed'>
+                    Your privacy matters. We provide anonymous publishing options that allow you to share your 
+                    thoughts and stories without revealing your identity, ensuring a safe space for honest 
+                    expression and authentic storytelling.
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         </Container>
       </section>
 
-      {/* Values Section */}
-      <section className='py-20 bg-gray-800/30'>
-        <Container>
-          <div className='text-center mb-16'>
-            <h2 className='text-3xl md:text-4xl font-bold text-white mb-4'>Our Values</h2>
-            <p className='text-lg text-gray-300'>
-              The principles that guide everything we do at BlogSpace
-            </p>
-          </div>
-          
-          <div className='grid md:grid-cols-2 lg:grid-cols-4 gap-8'>
-            {values.map((value, index) => (
-              <div key={index} className='text-center group'>
-                <div className='bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-2xl p-8 hover:shadow-lg hover:bg-gray-800/70 transition-all duration-300 transform group-hover:-translate-y-2'>
-                  <div className='text-4xl mb-4'>{value.icon}</div>
-                  <h3 className='text-xl font-semibold text-white mb-3'>{value.title}</h3>
-                  <p className='text-gray-300 leading-relaxed'>{value.description}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </Container>
-      </section>
+      {/* Separator Line */}
+      <div className='w-full h-px bg-gradient-to-r from-transparent via-gray-600 to-transparent'></div>
 
       {/* Team Section */}
       <section className='py-20'>
         <Container>
           <div className='text-center mb-16'>
-            <h2 className='text-3xl md:text-4xl font-bold text-white mb-4'>Meet Our Team</h2>
+            <h2 className='text-3xl md:text-4xl font-bold text-white mb-4'>Meet Our Developer</h2>
             <p className='text-lg text-gray-300'>
               The passionate developer behind BlogSpace
             </p>
           </div>
           
           <div className='flex justify-center'>
-            <div className='max-w-sm w-full'>
+            <div className='max-w-lg w-full'>
               {teamMembers.map((member, index) => (
-                <div key={index} className='bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-2xl p-8 shadow-lg hover:shadow-xl hover:bg-gray-800/70 transition-all duration-300 transform hover:-translate-y-2 text-center'>
-                  <div className='w-24 h-24 rounded-full mx-auto mb-6 overflow-hidden ring-4 ring-blue-500/30'>
+                <div key={index} className='bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-2xl p-10 shadow-lg hover:shadow-2xl hover:shadow-blue-500/20 hover:bg-gray-800/70 transition-all duration-500 transform hover:-translate-y-3 hover:scale-105 text-center group'>
+                  <div className='w-28 h-28 rounded-full mx-auto mb-6 overflow-hidden ring-4 ring-blue-500/30 group-hover:ring-blue-400/50 transition-all duration-300'>
                     <img
                       src={profileImage}
                       alt={member.name}
@@ -208,24 +169,27 @@ function About() {
         </Container>
       </section>
 
+      {/* Separator Line */}
+      <div className='w-full h-px bg-gradient-to-r from-transparent via-gray-600 to-transparent'></div>
+
       {/* Contact Section */}
-      <section className='py-20 bg-gradient-to-r from-blue-900 to-slate-900 text-white'>
+      <section className='py-20'>
         <Container>
           <div className='text-center'>
-            <h2 className='text-3xl md:text-4xl font-bold mb-6'>Get In Touch</h2>
-            <p className='text-xl text-blue-100 mb-8 max-w-2xl mx-auto'>
+            <h2 className='text-3xl md:text-4xl font-bold mb-6 text-white'>Get In Touch</h2>
+            <p className='text-xl text-gray-300 mb-8 max-w-2xl mx-auto'>
               Have questions, suggestions, or just want to say hello? We'd love to hear from you.
             </p>
             <div className='flex flex-col sm:flex-row gap-4 justify-center items-center'>
               <a 
                 href="mailto:officialdslc1552005@gmail.com" 
-                className='px-8 py-4 bg-white text-blue-700 rounded-xl font-semibold hover:bg-gray-50 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1'
+                className='px-8 py-4 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1'
               >
                 Email Us
               </a>
               <Link
                 to="/signup"
-                className='px-8 py-4 border-2 border-white text-white rounded-xl font-semibold hover:bg-white hover:text-blue-700 transition-all duration-300'
+                className='px-8 py-4 border-2 border-gray-600 text-white rounded-xl font-semibold hover:bg-gray-700 hover:border-gray-500 transition-all duration-300'
               >
                 Join Our Community
               </Link>

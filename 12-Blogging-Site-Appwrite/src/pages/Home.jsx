@@ -65,7 +65,7 @@ function Home() {
                                             to="/add-post"
                                             className='px-8 py-4 bg-white text-blue-700 rounded-xl font-semibold hover:bg-gray-50 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1'
                                         >
-                                            Create Your Story
+                                            Create Your Blog
                                         </Link>
                                         <Link
                                             to="/all-posts"

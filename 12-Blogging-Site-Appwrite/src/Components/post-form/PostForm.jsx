@@ -125,8 +125,8 @@ export default function PostForm({ post }) {
                 </p>
             </div>
             
-            <form onSubmit={handleSubmit(submit)} className="flex flex-col lg:flex-row gap-6">
-                <div className="flex-1 lg:w-2/3 space-y-6">
+            <form onSubmit={handleSubmit(submit)} className="space-y-6">
+                <div className="space-y-6">
                     <Input
                         label="Title"
                         placeholder="Enter your story title..."
@@ -147,39 +147,44 @@ export default function PostForm({ post }) {
                     </div>
                 </div>
                 
-                <div className="lg:w-1/3 space-y-6">
-                    <div className="bg-gray-700/50 rounded-xl p-4 border border-gray-600">
-                        <h3 className="text-lg font-semibold text-white mb-4">Publication Settings</h3>
+                <div className="bg-gray-700/50 rounded-xl p-6 border border-gray-600">
+                    <h3 className="text-lg font-semibold text-white mb-6">Publication Settings</h3>
+                    
+                    <div className="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <Input
+                                label="Featured Image"
+                                type="file"
+                                className="mb-4"
+                                accept="image/png, image/jpg, image/jpeg, image/gif"
+                                {...register("image", { required: !post })}
+                            />
+                            {post && (
+                                <div className="w-full mb-4">
+                                    <img
+                                        src={appwriteService.getFilePreview(post.featuredImage)}
+                                        alt={post.title}
+                                        className="rounded-lg w-full max-w-xs object-cover border border-gray-600"
+                                    />
+                                </div>
+                            )}
+                        </div>
                         
-                        <Input
-                            label="Featured Image"
-                            type="file"
-                            className="mb-4"
-                            accept="image/png, image/jpg, image/jpeg, image/gif"
-                            {...register("image", { required: !post })}
-                        />
-                        {post && (
-                            <div className="w-full mb-4">
-                                <img
-                                    src={appwriteService.getFilePreview(post.featuredImage)}
-                                    alt={post.title}
-                                    className="rounded-lg w-full object-cover border border-gray-600"
-                                />
-                            </div>
-                        )}
-                        <Select
-                            options={["active", "inactive"]}
-                            label="Status"
-                            className="mb-6"
-                            {...register("status", { required: true })}
-                        />
-                        <Button 
-                            type="submit" 
-                            bgColor={post ? "bg-green-600 hover:bg-green-700" : "bg-blue-600 hover:bg-blue-700"} 
-                            className="w-full py-3 font-semibold rounded-lg transition-all duration-200"
-                        >
-                            {post ? "Update Story" : "Publish Story"}
-                        </Button>
+                        <div className="flex flex-col">
+                            <Select
+                                options={["active", "inactive"]}
+                                label="Status"
+                                className="mb-6"
+                                {...register("status", { required: true })}
+                            />
+                            <Button 
+                                type="submit" 
+                                bgColor={post ? "bg-green-600 hover:bg-green-700" : "bg-blue-600 hover:bg-blue-700"} 
+                                className="w-full md:w-auto py-3 px-8 font-semibold rounded-lg transition-all duration-200 mt-auto"
+                            >
+                                {post ? "Update Story" : "Publish Story"}
+                            </Button>
+                        </div>
                     </div>
                 </div>
             </form>

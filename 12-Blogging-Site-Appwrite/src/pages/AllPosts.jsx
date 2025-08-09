@@ -63,7 +63,7 @@ function AllPosts() {
                 <Container>
                     <div className='text-center'>
                         <h1 className='text-4xl md:text-5xl font-bold mb-4'>
-                            All Stories
+                            All Posts
                         </h1>
                         <p className='text-xl text-blue-100 mb-8 max-w-2xl mx-auto'>
                             Discover amazing content from our community of writers
@@ -73,13 +73,13 @@ function AllPosts() {
                                 to="/add-post"
                                 className='px-6 py-3 bg-white text-blue-700 rounded-lg font-semibold hover:bg-gray-50 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5'
                             >
-                                Share Your Story
+                                Share Your Post
                             </Link>
                             <div className='flex items-center space-x-2 text-blue-100'>
                                 <svg className='w-5 h-5' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
                                     <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253' />
                                 </svg>
-                                <span>{posts.length} stories and counting</span>
+                                <span>{posts.length} posts and counting</span>
                             </div>
                         </div>
                     </div>
@@ -92,15 +92,15 @@ function AllPosts() {
                     {posts.length === 0 ? (
                         <div className='text-center py-16'>
                             <div className='text-6xl mb-6'>📝</div>
-                            <h2 className='text-2xl font-bold text-white mb-4'>No Stories Yet</h2>
+                            <h2 className='text-2xl font-bold text-white mb-4'>No Posts Yet</h2>
                             <p className='text-gray-300 mb-8 max-w-md mx-auto'>
-                                Be the first to share your story with our community. Your voice matters!
+                                Be the first to share your post with our community. Your voice matters!
                             </p>
                             <Link
                                 to="/add-post"
                                 className='inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-800 text-white rounded-lg font-semibold hover:from-blue-700 hover:to-blue-900 transition-all duration-300 shadow-lg hover:shadow-xl'
                             >
-                                Write Your First Story
+                                Write Your First Post
                                 <svg className='ml-2 w-5 h-5' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
                                     <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M13 7l5 5m0 0l-5 5m5-5H6' />
                                 </svg>
@@ -114,7 +114,7 @@ function AllPosts() {
                                     <div className='flex flex-col md:flex-row justify-between items-center gap-4'>
                                         <div className='flex items-center space-x-4'>
                                             <h2 className='text-lg font-semibold text-white'>
-                                                {posts.length} {posts.length === 1 ? 'Story' : 'Stories'} Found
+                                                {posts.length} {posts.length === 1 ? 'Post' : 'Posts'} Found
                                             </h2>
                                             <div className='hidden md:flex items-center space-x-2 text-sm text-gray-400'>
                                                 <svg className='w-4 h-4' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
@@ -132,16 +132,6 @@ function AllPosts() {
                                                 <option value="latest">Latest First</option>
                                                 <option value="oldest">Oldest First</option>
                                             </select>
-                                            <button className='p-2 text-gray-400 hover:text-blue-400 transition-colors duration-200'>
-                                                <svg className='w-5 h-5' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
-                                                    <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M4 6h16M4 10h16M4 14h16M4 18h16' />
-                                                </svg>
-                                            </button>
-                                            <button className='p-2 text-blue-400 bg-blue-900/30 rounded-lg'>
-                                                <svg className='w-5 h-5' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
-                                                    <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z' />
-                                                </svg>
-                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -150,7 +140,7 @@ function AllPosts() {
                             {/* Posts Grid */}
                             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
                                 {sortedPosts.map((post) => (
-                                    <div key={post.$id} className='transform hover:-translate-y-2 transition-all duration-300'>
+                                    <div key={post.$id} className='h-96 transform hover:-translate-y-2 transition-all duration-300'>
                                         <PostCard 
                                             {...post} 
                                             author={post.userId === userData?.$id ? (userData?.name || 'You') : null}
@@ -163,13 +153,13 @@ function AllPosts() {
                             {/* Load More Section */}
                             <div className='text-center mt-16'>
                                 <p className='text-gray-600 mb-6'>
-                                    You've reached the end! Want to share your own story?
+                                    You've reached the end! Want to share your own post?
                                 </p>
                                 <Link
                                     to="/add-post"
-                                    className='inline-flex items-center px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg font-semibold hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl'
+                                    className='inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-800 text-white rounded-lg font-semibold hover:from-blue-700 hover:to-blue-900 transition-all duration-300 shadow-lg hover:shadow-xl'
                                 >
-                                    Write a Story
+                                    Write a Blog
                                     <svg className='ml-2 w-5 h-5' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
                                         <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z' />
                                     </svg>
