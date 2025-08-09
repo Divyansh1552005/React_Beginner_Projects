@@ -118,10 +118,10 @@ export default function PostForm({ post }) {
         <div className="bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-2xl p-6 md:p-8 shadow-xl">
             <div className="mb-6">
                 <h1 className="text-2xl md:text-3xl font-bold text-white mb-2">
-                    {post ? "Update Your Story" : "Create New Story"}
+                    {post ? "Update Your Blog" : "Create New Blog"}
                 </h1>
                 <p className="text-gray-300">
-                    {post ? "Make changes to your existing post" : "Share your thoughts with the world"}
+                    {post ? "Make changes to your existing post" : "Share your knowledge with the world"}
                 </p>
             </div>
             
@@ -129,7 +129,7 @@ export default function PostForm({ post }) {
                 <div className="space-y-6">
                     <Input
                         label="Title"
-                        placeholder="Enter your story title..."
+                        placeholder="Enter your blog title..."
                         className="mb-4"
                         {...register("title", { required: true })}
                     />
@@ -182,7 +182,7 @@ export default function PostForm({ post }) {
                                 bgColor={post ? "bg-green-600 hover:bg-green-700" : "bg-blue-600 hover:bg-blue-700"} 
                                 className="w-full md:w-auto py-3 px-8 font-semibold rounded-lg transition-all duration-200 mt-auto"
                             >
-                                {post ? "Update Story" : "Publish Story"}
+                                {post ? "Update Blog" : "Publish Blog"}
                             </Button>
                         </div>
                     </div>
