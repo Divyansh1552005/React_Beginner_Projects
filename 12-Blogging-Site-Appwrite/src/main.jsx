@@ -14,6 +14,10 @@ import Signup from './pages/Signup'
 import EditPost from "./pages/EditPost";
 import Post from "./pages/Post";
 import AllPosts from "./pages/AllPosts";
+import MyPosts from "./pages/MyPosts";
+import Profile from "./pages/Profile";
+import Settings from "./pages/Settings";
+import Account from "./pages/Account";
 
 const router = createBrowserRouter([
   {
@@ -74,6 +78,38 @@ const router = createBrowserRouter([
         {
             path: "/post/:slug",
             element: <Post />,
+        },
+        {
+            path: "/my-posts",
+            element: (
+                <AuthLayout authentication>
+                    <MyPosts />
+                </AuthLayout>
+            ),
+        },
+        {
+            path: "/profile",
+            element: (
+                <AuthLayout authentication>
+                    <Profile />
+                </AuthLayout>
+            ),
+        },
+        {
+            path: "/settings",
+            element: (
+                <AuthLayout authentication>
+                    <Settings />
+                </AuthLayout>
+            ),
+        },
+        {
+            path: "/account",
+            element: (
+                <AuthLayout authentication>
+                    <Account />
+                </AuthLayout>
+            ),
         },
     ],
 },

@@ -30,30 +30,30 @@ function Login() {
 
     return (
         <div
-            className='flex items-center justify-center w-full'
+            className='flex items-center justify-center w-full min-h-screen px-4'
         >
-            <div className={`mx-auto w-full max-w-lg bg-gray-100 rounded-xl p-10 border border-black/10`}>
-                <div className="mb-2 flex justify-center">
-                    <span className="inline-block w-full max-w-[100px]">
+            <div className={`mx-auto w-full max-w-md bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-2xl p-8 shadow-xl`}>
+                <div className="mb-6 flex justify-center">
+                    <span className="inline-block w-full max-w-[80px]">
                         <Logo width="100%" />
                     </span>
                 </div>
-                <h2 className="text-center text-2xl font-bold leading-tight">Sign in to your account</h2>
-                <p className="mt-2 text-center text-base text-black/60">
-                    Don&apos;t have any account?&nbsp;
+                <h2 className="text-center text-2xl font-bold leading-tight text-white mb-2">Welcome Back</h2>
+                <p className="text-center text-sm text-gray-300 mb-6">
+                    Don&apos;t have an account?{' '}
                     <Link
                         to="/signup"
-                        className="font-medium text-primary transition-all duration-200 hover:underline"
+                        className="font-medium text-blue-400 hover:text-blue-300 transition-colors duration-200"
                     >
                         Sign Up
                     </Link>
                 </p>
-                {error && <p className="text-red-600 mt-8 text-center">{error}</p>}
-                <form onSubmit={handleSubmit(login)} className='mt-8'>
-                    <div className='space-y-5'>
+                {error && <p className="text-red-400 mt-4 text-center bg-red-900/20 border border-red-800 rounded-lg p-3">{error}</p>}
+                <form onSubmit={handleSubmit(login)} className='mt-6'>
+                    <div className='space-y-4'>
                            <Input
-                            label="Email: "
-                            placeholder="Enter your email"
+                            label="Email"
+                            placeholder="Enter your email address"
                             type="email"
                             {...register("email", {   
                                 required: true,
@@ -64,7 +64,7 @@ function Login() {
                             })}
                         />
                         <Input
-                            label="Password: "
+                            label="Password"
                             type="password"
                             placeholder="Enter your password"
                             {...register("password", {
@@ -73,8 +73,9 @@ function Login() {
                         />
                         <Button
                             type="submit"
-                            className="w-full"
-                        >Sign in</Button>
+                            className="w-full mt-6"
+                            bgColor="bg-blue-600 hover:bg-blue-700"
+                        >Sign In</Button>
                     </div>
                 </form>
             </div>

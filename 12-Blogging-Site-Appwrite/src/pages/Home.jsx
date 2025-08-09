@@ -17,10 +17,10 @@ function Home() {
     }, [])
 
     return (
-        <div className='min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50'>
+        <div className='min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900'>
             {/* Hero Section */}
-            <section className='relative overflow-hidden bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-800'>
-                <div className='absolute inset-0 bg-gradient-to-r from-indigo-600/90 to-purple-600/90'></div>
+            <section className='relative overflow-hidden bg-gradient-to-r from-blue-900 via-blue-950 to-slate-900'>
+                <div className='absolute inset-0 bg-gradient-to-r from-blue-900/90 to-slate-900/90'></div>
                 <div className='relative'>
                     <Container>
                         <div className='py-24 md:py-32 text-center'>
@@ -38,13 +38,13 @@ function Home() {
                                     <>
                                         <Link
                                             to="/add-post"
-                                            className='px-8 py-4 bg-white text-indigo-600 rounded-xl font-semibold hover:bg-gray-50 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1'
+                                            className='px-8 py-4 bg-white text-blue-700 rounded-xl font-semibold hover:bg-gray-50 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1'
                                         >
                                             Create Your Story
                                         </Link>
                                         <Link
                                             to="/all-posts"
-                                            className='px-8 py-4 border-2 border-white text-white rounded-xl font-semibold hover:bg-white hover:text-indigo-600 transition-all duration-300'
+                                            className='px-8 py-4 border-2 border-white text-white rounded-xl font-semibold hover:bg-white hover:text-blue-700 transition-all duration-300'
                                         >
                                             Explore Posts
                                         </Link>
@@ -53,13 +53,13 @@ function Home() {
                                     <>
                                         <Link
                                             to="/signup"
-                                            className='px-8 py-4 bg-white text-indigo-600 rounded-xl font-semibold hover:bg-gray-50 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1'
+                                            className='px-8 py-4 bg-white text-blue-700 rounded-xl font-semibold hover:bg-gray-50 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1'
                                         >
                                             Get Started Free
                                         </Link>
                                         <Link
                                             to="/login"
-                                            className='px-8 py-4 border-2 border-white text-white rounded-xl font-semibold hover:bg-white hover:text-indigo-600 transition-all duration-300'
+                                            className='px-8 py-4 border-2 border-white text-white rounded-xl font-semibold hover:bg-white hover:text-blue-700 transition-all duration-300'
                                         >
                                             Sign In
                                         </Link>
@@ -78,10 +78,10 @@ function Home() {
             <section className='py-20'>
                 <Container>
                     <div className='text-center mb-16'>
-                        <h2 className='text-3xl md:text-4xl font-bold text-gray-900 mb-4'>
+                        <h2 className='text-3xl md:text-4xl font-bold text-white mb-4'>
                             Why Choose BlogSpace?
                         </h2>
-                        <p className='text-lg text-gray-600 max-w-2xl mx-auto'>
+                        <p className='text-lg text-gray-300 max-w-2xl mx-auto'>
                             Everything you need to create, share, and discover amazing content
                         </p>
                     </div>
@@ -104,10 +104,10 @@ function Home() {
                                 description: 'Read and write on any device with our responsive design'
                             }
                         ].map((feature, index) => (
-                            <div key={index} className='bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2'>
+                            <div key={index} className='bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-2xl p-8 shadow-lg hover:shadow-xl hover:bg-gray-800/70 transition-all duration-300 transform hover:-translate-y-2'>
                                 <div className='text-4xl mb-4'>{feature.icon}</div>
-                                <h3 className='text-xl font-semibold text-gray-900 mb-3'>{feature.title}</h3>
-                                <p className='text-gray-600 leading-relaxed'>{feature.description}</p>
+                                <h3 className='text-xl font-semibold text-white mb-3'>{feature.title}</h3>
+                                <p className='text-gray-300 leading-relaxed'>{feature.description}</p>
                             </div>
                         ))}
                     </div>
@@ -116,13 +116,13 @@ function Home() {
 
             {/* Recent Posts Section */}
             {posts.length > 0 && (
-                <section className='py-20 bg-white'>
+                <section className='py-20 bg-gray-800/30'>
                     <Container>
                         <div className='text-center mb-16'>
-                            <h2 className='text-3xl md:text-4xl font-bold text-gray-900 mb-4'>
+                            <h2 className='text-3xl md:text-4xl font-bold text-white mb-4'>
                                 Latest Stories
                             </h2>
-                            <p className='text-lg text-gray-600'>
+                            <p className='text-lg text-gray-300'>
                                 Discover the most recent posts from our community
                             </p>
                         </div>
@@ -138,7 +138,7 @@ function Home() {
                         <div className='text-center mt-12'>
                             <Link
                                 to="/all-posts"
-                                className='inline-flex items-center px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg font-semibold hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl'
+                                className='inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-800 text-white rounded-lg font-semibold hover:from-blue-700 hover:to-blue-900 transition-all duration-300 shadow-lg hover:shadow-xl'
                             >
                                 View All Posts
                                 <svg className='ml-2 w-5 h-5' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
@@ -151,7 +151,7 @@ function Home() {
             )}
 
             {/* Stats Section */}
-            <section className='py-20 bg-gradient-to-r from-indigo-600 to-purple-600 text-white'>
+            <section className='py-20 bg-gradient-to-r from-blue-900 to-slate-900 text-white'>
                 <Container>
                     <div className='grid md:grid-cols-3 gap-8 text-center'>
                         {[
@@ -161,7 +161,7 @@ function Home() {
                         ].map((stat, index) => (
                             <div key={index} className=''>
                                 <div className='text-4xl md:text-5xl font-bold mb-2'>{stat.number}</div>
-                                <div className='text-indigo-200 text-lg'>{stat.label}</div>
+                                <div className='text-blue-200 text-lg'>{stat.label}</div>
                             </div>
                         ))}
                     </div>
@@ -172,16 +172,16 @@ function Home() {
             {!authStatus && (
                 <section className='py-20'>
                     <Container>
-                        <div className='bg-gradient-to-r from-indigo-50 to-purple-50 rounded-3xl p-12 text-center'>
-                            <h2 className='text-3xl md:text-4xl font-bold text-gray-900 mb-4'>
+                        <div className='bg-gradient-to-r from-gray-800 to-gray-700 border border-gray-600 rounded-3xl p-12 text-center'>
+                            <h2 className='text-3xl md:text-4xl font-bold text-white mb-4'>
                                 Ready to Start Writing?
                             </h2>
-                            <p className='text-lg text-gray-600 mb-8 max-w-2xl mx-auto'>
+                            <p className='text-lg text-gray-300 mb-8 max-w-2xl mx-auto'>
                                 Join our community of writers and readers. Share your stories and discover amazing content.
                             </p>
                             <Link
                                 to="/signup"
-                                className='inline-flex items-center px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl font-semibold hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1'
+                                className='inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-800 text-white rounded-xl font-semibold hover:from-blue-700 hover:to-blue-900 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1'
                             >
                                 Join BlogSpace Today
                                 <svg className='ml-2 w-5 h-5' fill='none' stroke='currentColor' viewBox='0 0 24 24'>

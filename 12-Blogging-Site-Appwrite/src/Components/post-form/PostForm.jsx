@@ -88,52 +88,74 @@ export default function PostForm({ post }) {
     }, [watch, slugTransform, setValue]);
 
     return (
-        <form onSubmit={handleSubmit(submit)} className="flex flex-wrap">
-            <div className="w-2/3 px-2">
-                <Input
-                    label="Title :"
-                    placeholder="Title"
-                    className="mb-4"
-                    {...register("title", { required: true })}
-                />
-                <Input
-                    label="Slug :"
-                    placeholder="Slug"
-                    className="mb-4"
-                    {...register("slug", { required: true })}
-                    onInput={(e) => {
-                        setValue("slug", slugTransform(e.currentTarget.value), { shouldValidate: true });
-                    }}
-                />
-                <RTE label="Content :" name="content" control={control} defaultValue={getValues("content")} />
+        <div className="bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-2xl p-6 md:p-8 shadow-xl">
+            <div className="mb-6">
+                <h1 className="text-2xl md:text-3xl font-bold text-white mb-2">
+                    {post ? "Update Your Story" : "Create New Story"}
+                </h1>
+                <p className="text-gray-300">
+                    {post ? "Make changes to your existing post" : "Share your thoughts with the world"}
+                </p>
             </div>
-            <div className="w-1/3 px-2">
-                <Input
-                    label="Featured Image :"
-                    type="file"
-                    className="mb-4"
-                    accept="image/png, image/jpg, image/jpeg, image/gif"
-                    {...register("image", { required: !post })}
-                />
-                {post && (
-                    <div className="w-full mb-4">
-                        <img
-                            src={appwriteService.getFilePreview(post.featuredImage)}
-                            alt={post.title}
-                            className="rounded-lg"
-                        />
+            
+            <form onSubmit={handleSubmit(submit)} className="flex flex-col lg:flex-row gap-6">
+                <div className="flex-1 lg:w-2/3 space-y-6">
+                    <Input
+                        label="Title"
+                        placeholder="Enter your story title..."
+                        className="mb-4"
+                        {...register("title", { required: true })}
+                    />
+                    <Input
+                        label="Slug"
+                        placeholder="URL slug (auto-generated)"
+                        className="mb-4"
+                        {...register("slug", { required: true })}
+                        onInput={(e) => {
+                            setValue("slug", slugTransform(e.currentTarget.value), { shouldValidate: true });
+                        }}
+                    />
+                    <div className="mb-4">
+                        <RTE label="Content" name="content" control={control} defaultValue={getValues("content")} />
                     </div>
-                )}
-                <Select
-                    options={["active", "inactive"]}
-                    label="Status"
-                    className="mb-4"
-                    {...register("status", { required: true })}
-                />
-                <Button type="submit" bgColor={post ? "bg-green-500" : undefined} className="w-full">
-                    {post ? "Update" : "Submit"}
-                </Button>
-            </div>
-        </form>
+                </div>
+                
+                <div className="lg:w-1/3 space-y-6">
+                    <div className="bg-gray-700/50 rounded-xl p-4 border border-gray-600">
+                        <h3 className="text-lg font-semibold text-white mb-4">Publication Settings</h3>
+                        
+                        <Input
+                            label="Featured Image"
+                            type="file"
+                            className="mb-4"
+                            accept="image/png, image/jpg, image/jpeg, image/gif"
+                            {...register("image", { required: !post })}
+                        />
+                        {post && (
+                            <div className="w-full mb-4">
+                                <img
+                                    src={appwriteService.getFilePreview(post.featuredImage)}
+                                    alt={post.title}
+                                    className="rounded-lg w-full object-cover border border-gray-600"
+                                />
+                            </div>
+                        )}
+                        <Select
+                            options={["active", "inactive"]}
+                            label="Status"
+                            className="mb-6"
+                            {...register("status", { required: true })}
+                        />
+                        <Button 
+                            type="submit" 
+                            bgColor={post ? "bg-green-600 hover:bg-green-700" : "bg-blue-600 hover:bg-blue-700"} 
+                            className="w-full py-3 font-semibold rounded-lg transition-all duration-200"
+                        >
+                            {post ? "Update Story" : "Publish Story"}
+                        </Button>
+                    </div>
+                </div>
+            </form>
+        </div>
     );
 }
