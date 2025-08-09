@@ -97,16 +97,16 @@ function UserDropdown() {
     ]
 
     return (
-        <div className="relative" ref={dropdownRef}>
+        <div className="relative " ref={dropdownRef}>
             {/* Dropdown Trigger */}
-            <button
+            <button style={{ cursor: 'pointer' }}
                 onClick={() => setIsOpen(!isOpen)}
                 className="flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-gray-800 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 aria-expanded={isOpen}
                 aria-haspopup="true"
             >
                 {/* Avatar */}
-                <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-blue-800 rounded-full flex items-center justify-center text-white font-semibold text-sm">
+                <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-blue-800 rounded-full flex items-center justify-center text-white font-semibold text-sm ">
                     {userData?.name?.charAt(0)?.toUpperCase() || 'U'}
                 </div>
                 

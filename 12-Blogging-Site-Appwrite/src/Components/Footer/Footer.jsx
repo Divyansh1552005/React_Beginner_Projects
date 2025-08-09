@@ -110,9 +110,13 @@ function Footer() {
                 </Link>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:text-indigo-400 transition-colors duration-200 cursor-pointer">
+                <Link 
+                  to="/community-guidelines" 
+                  onClick={handleNavClick}
+                  className="text-gray-400 hover:text-indigo-400 transition-colors duration-200 cursor-pointer"
+                >
                   Community Guidelines
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -136,12 +140,12 @@ function Footer() {
                 onClick={() => {
                   const suggestion = document.getElementById('featureSuggestion').value;
                   if (suggestion.trim()) {
-                    window.location.href = `mailto:officialdslc1552005@gmail.com?subject=BlogSpace Feature Suggestion&body=${encodeURIComponent(suggestion)}`;
+                     window.open(`mailto:officialdslc1552005@gmail.com?subject=BlogSpace Feature Suggestion&body=${encodeURIComponent(suggestion)}`, '_blank');
                   } else {
                     alert('Please enter your suggestion first!');
                   }
                 }}
-                className="w-full px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-200 font-medium text-sm"
+                className="w-full px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-200 font-medium text-sm cursor-pointer"
               >
                 Send Suggestion
               </button>
