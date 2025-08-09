@@ -15,9 +15,7 @@ import EditPost from "./pages/EditPost";
 import Post from "./pages/Post";
 import AllPosts from "./pages/AllPosts";
 import MyPosts from "./pages/MyPosts";
-import Profile from "./pages/Profile";
-import Settings from "./pages/Settings";
-import Account from "./pages/Account";
+import AccountSettings from "./pages/AccountSettings";
 
 const router = createBrowserRouter([
   {
@@ -88,26 +86,10 @@ const router = createBrowserRouter([
             ),
         },
         {
-            path: "/profile",
-            element: (
-                <AuthLayout authentication>
-                    <Profile />
-                </AuthLayout>
-            ),
-        },
-        {
-            path: "/settings",
-            element: (
-                <AuthLayout authentication>
-                    <Settings />
-                </AuthLayout>
-            ),
-        },
-        {
             path: "/account",
             element: (
                 <AuthLayout authentication>
-                    <Account />
+                    <AccountSettings />
                 </AuthLayout>
             ),
         },

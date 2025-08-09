@@ -151,7 +151,7 @@ function Home() {
             )}
 
             {/* Stats Section */}
-            <section className='py-20 bg-gradient-to-r from-blue-900 to-slate-900 text-white'>
+            {/* <section className='py-20 bg-gradient-to-r from-blue-900 to-slate-900 text-white'>
                 <Container>
                     <div className='grid md:grid-cols-3 gap-8 text-center'>
                         {[
@@ -166,7 +166,7 @@ function Home() {
                         ))}
                     </div>
                 </Container>
-            </section>
+            </section> */}
 
             {/* CTA Section */}
             {!authStatus && (

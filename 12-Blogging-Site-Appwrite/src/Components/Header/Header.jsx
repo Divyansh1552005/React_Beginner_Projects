@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import {Container , Logo, LogoutBtn} from '../index.js'
 import UserDropdown from './UserDropdown'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
@@ -10,6 +10,19 @@ function Header() {
   const authStatus = useSelector((state) => state.auth.status);
   const userData = useSelector((state) => state.auth.userData);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // Function to scroll to top when navigating
+  const handleNavClick = (slug) => {
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 100);
+  };
+
+  // Function to check if current path matches the nav item
+  const isActive = (slug) => {
+    return location.pathname === slug;
+  };
 
   const navItems = [
     {
@@ -65,9 +78,17 @@ function Header() {
                 <Link
                   key={item.name}
                   to={item.slug}
-                  className='px-4 py-2 text-gray-300 hover:text-white hover:bg-gray-800 rounded-lg transition-all duration-200 font-medium'
+                  onClick={() => handleNavClick(item.slug)}
+                  className={`relative px-4 py-2 font-medium transition-all duration-200 cursor-pointer ${
+                    isActive(item.slug) 
+                      ? 'text-sky-400' 
+                      : 'text-gray-300 hover:text-white'
+                  } hover:bg-gray-800 rounded-lg`}
                 >
                   {item.name}
+                  {isActive(item.slug) && (
+                    <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-8 h-0.5 bg-sky-400 rounded-full"></div>
+                  )}
                 </Link>
               ) : null
             )}
@@ -78,7 +99,7 @@ function Header() {
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className='md:hidden p-2 text-gray-300 hover:text-white hover:bg-gray-800 rounded-lg transition-colors duration-200'
+              className='md:hidden p-2 text-gray-300 hover:text-white hover:bg-gray-800 rounded-lg transition-colors duration-200 cursor-pointer'
             >
               <svg 
                 className={`w-6 h-6 transition-transform duration-200 ${isMobileMenuOpen ? 'rotate-90' : ''}`}
@@ -101,13 +122,15 @@ function Header() {
               <div className='hidden md:flex items-center space-x-3'>
                 <Link
                   to="/login"
-                  className='px-4 py-2 text-gray-300 hover:text-white font-medium transition-colors duration-200'
+                  onClick={() => handleNavClick("/login")}
+                  className='px-4 py-2 text-gray-300 hover:text-white font-medium transition-colors duration-200 cursor-pointer'
                 >
                   Login
                 </Link>
                 <Link
                   to="/signup"
-                  className='px-6 py-2 bg-gradient-to-r from-blue-600 to-blue-800 text-white rounded-lg hover:from-blue-700 hover:to-blue-900 transition-all duration-200 font-medium shadow-lg hover:shadow-xl transform hover:-translate-y-0.5'
+                  onClick={() => handleNavClick("/signup")}
+                  className='px-6 py-2 bg-gradient-to-r from-blue-600 to-blue-800 text-white rounded-lg hover:from-blue-700 hover:to-blue-900 transition-all duration-200 font-medium shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 cursor-pointer'
                 >
                   Sign Up
                 </Link>
@@ -125,10 +148,20 @@ function Header() {
                   <Link
                     key={item.name}
                     to={item.slug}
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className='block px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-800 rounded-lg transition-all duration-200 font-medium'
+                    onClick={() => {
+                      setIsMobileMenuOpen(false);
+                      handleNavClick(item.slug);
+                    }}
+                    className={`relative block px-4 py-3 font-medium transition-all duration-200 rounded-lg cursor-pointer ${
+                      isActive(item.slug) 
+                        ? 'text-sky-400 bg-gray-800' 
+                        : 'text-gray-300 hover:text-white hover:bg-gray-800'
+                    }`}
                   >
                     {item.name}
+                    {isActive(item.slug) && (
+                      <div className="absolute left-0 top-1/2 transform -translate-y-1/2 w-1 h-6 bg-sky-400 rounded-full"></div>
+                    )}
                   </Link>
                 ) : null
               )}
@@ -138,15 +171,21 @@ function Header() {
                 <div className='pt-4 border-t border-gray-700 space-y-2'>
                   <Link
                     to="/login"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className='block px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-800 rounded-lg transition-all duration-200 font-medium text-center'
+                    onClick={() => {
+                      setIsMobileMenuOpen(false);
+                      handleNavClick("/login");
+                    }}
+                    className='block px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-800 rounded-lg transition-all duration-200 font-medium text-center cursor-pointer'
                   >
                     Login
                   </Link>
                   <Link
                     to="/signup"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className='block px-4 py-3 bg-gradient-to-r from-blue-600 to-blue-800 text-white rounded-lg hover:from-blue-700 hover:to-blue-900 transition-all duration-200 font-medium text-center shadow-lg'
+                    onClick={() => {
+                      setIsMobileMenuOpen(false);
+                      handleNavClick("/signup");
+                    }}
+                    className='block px-4 py-3 bg-gradient-to-r from-blue-600 to-blue-800 text-white rounded-lg hover:from-blue-700 hover:to-blue-900 transition-all duration-200 font-medium text-center shadow-lg cursor-pointer'
                   >
                     Sign Up
                   </Link>
@@ -162,31 +201,23 @@ function Header() {
                   </div>
                   <Link
                     to="/my-posts"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className='block px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-800 rounded-lg transition-colors duration-200'
+                    onClick={() => {
+                      setIsMobileMenuOpen(false);
+                      handleNavClick("/my-posts");
+                    }}
+                    className='block px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-800 rounded-lg transition-colors duration-200 cursor-pointer'
                   >
                     My Posts
                   </Link>
                   <Link
-                    to="/profile"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className='block px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-800 rounded-lg transition-colors duration-200'
-                  >
-                    Profile
-                  </Link>
-                  <Link
-                    to="/settings"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className='block px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-800 rounded-lg transition-colors duration-200'
-                  >
-                    Settings
-                  </Link>
-                  <Link
                     to="/account"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className='block px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-800 rounded-lg transition-colors duration-200'
+                    onClick={() => {
+                      setIsMobileMenuOpen(false);
+                      handleNavClick("/account");
+                    }}
+                    className='block px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-800 rounded-lg transition-colors duration-200 cursor-pointer'
                   >
-                    Account
+                    Account Settings
                   </Link>
                   <div className='px-4 pt-2'>
                     <LogoutBtn />

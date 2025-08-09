@@ -86,6 +86,81 @@ export class AuthService{
             throw error; // if there is an error then we can throw the error
         }
     }
+
+    // Update user profile information
+    async update_profile(name) {
+        try {
+            return await this.account.updateName(name);
+        } catch (error) {
+            console.error("Appwrite service :: update_profile :: error :", error);
+            throw error;
+        }
+    }
+
+    // Update user email
+    async update_email(email, password) {
+        try {
+            return await this.account.updateEmail(email, password);
+        } catch (error) {
+            console.error("Appwrite service :: update_email :: error :", error);
+            throw error;
+        }
+    }
+
+    // Send password reset email
+    async reset_password(email) {
+        try {
+            // This will send a password reset email to the user
+            return await this.account.createRecovery(
+                email,
+                `${window.location.origin}/reset-password` // Reset URL
+            );
+        } catch (error) {
+            console.error("Appwrite service :: reset_password :: error :", error);
+            throw error;
+        }
+    }
+
+    // Complete password reset with secret from email
+    async confirm_password_reset(userId, secret, newPassword) {
+        try {
+            return await this.account.updateRecovery(
+                userId,
+                secret,
+                newPassword
+            );
+        } catch (error) {
+            console.error("Appwrite service :: confirm_password_reset :: error :", error);
+            throw error;
+        }
+    }
+
+    // Update password (when user is logged in)
+    async update_password(newPassword, oldPassword = '') {
+        try {
+            return await this.account.updatePassword(newPassword, oldPassword);
+        } catch (error) {
+            console.error("Appwrite service :: update_password :: error :", error);
+            throw error;
+        }
+    }
+
+    // Delete user account
+    async delete_account() {
+        try {
+            // First get current user to get their ID
+            const user = await this.get_current_user();
+            if (!user) {
+                throw new Error('No user logged in');
+            }
+            
+            // Delete the account (this will also delete all sessions)
+            return await this.account.delete();
+        } catch (error) {
+            console.error("Appwrite service :: delete_account :: error :", error);
+            throw error;
+        }
+    }
     
 }
 
