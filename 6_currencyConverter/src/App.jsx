@@ -58,14 +58,14 @@ function App(){
                       }}
                   >
                       <div className="w-full mb-6">
-                          <InputBox
-                              label="From"
-                              amount={amount}
-                              currencyOptions={options}
-                              onCurrencyChange={(currency) => setAmount(amount)}
-                              selectCurrency={from}
-                              onAmountChange={(amount) => setAmount(amount)}
-                          />
+              <InputBox
+                label="From"
+                amount={amount}
+                currencyOptions={options}
+                onCurrencyChange={(currency) => setFrom(currency)}
+                selectCurrency={from}
+                onAmountChange={(amount) => setAmount(amount)}
+              />
                       </div>
                       
                       <div className="relative w-full flex justify-center my-6 sm:my-8">
