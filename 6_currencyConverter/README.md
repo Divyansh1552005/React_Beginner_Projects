@@ -6,7 +6,7 @@ A simple React app to convert currencies using live exchange rates.
 ### Features
 - Convert between different currencies
 - Fetches real-time rates
-- Simple and clean UI
+- Simple and clean and responsive UI 
 
 ### How to Run
 1. Install dependencies:
