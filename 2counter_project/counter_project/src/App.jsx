@@ -16,12 +16,11 @@ function App() {
 
   let add_value = ()=>{
       // console.log("Value of counter is", counter);
-      set_counter((prev_ct) => prev_ct + 1)
-      set_counter((prev_ct) => prev_ct + 1)
-      set_counter((prev_ct) => prev_ct + 1)
-      set_counter((prev_ct) => prev_ct + 1)
-      console.log("Value of counter after increment by 1 is", counter);
-      
+      set_counter(counter + 1);
+      set_counter(counter + 1);
+      set_counter(counter + 1);
+      set_counter(counter + 1);
+      console.log("Value of counter after increment by 1 is", counter + 1);
   }
   let dec_value = ()=>{
     if(counter > 0){
