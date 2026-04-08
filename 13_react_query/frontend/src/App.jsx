@@ -1,6 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import './App.css'
 import axios from "axios"
+
+// debounce helper
+function debounce(fn, delay) {
+  let timer
+  return function (...args) {
+    clearTimeout(timer)
+    timer = setTimeout(() => fn(...args), delay)
+  }
+}
 
 function App() {
 
@@ -9,24 +18,31 @@ function App() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(false)
 
+  // debounced setter (stable ref)
+  const debouncedSearch = useRef(
+    debounce((value) => {
+      setSearch(value)
+    }, 400)
+  ).current
+
   useEffect(() => {
-    const controller = new AbortController();
-    
+    const controller = new AbortController()
+
     const fetchProducts = async () => {
       try {
         setLoading(true)
         setError(false)
 
         const response = await axios.get(
-          "/api/products?search=" + search,
-          {signal : controller.signal}
+          `/api/products?search=${search}`,
+          { signal: controller.signal }
         )
 
         setProducts(response.data)
       } catch (err) {
-        if(axios.isCancel(error)){
-          log("Request Canceled", error.message)
-          return;
+        if (err.name === "CanceledError") {
+          console.log("Request canceled")
+          return
         }
         setError(true)
       } finally {
@@ -35,11 +51,8 @@ function App() {
     }
 
     fetchProducts()
-    
-    // cleanup functions
-    return () =>{
-      controller.abort()
-    }
+
+    return () => controller.abort()
   }, [search])
 
   return (
@@ -49,11 +62,11 @@ function App() {
       <input
         type="text"
         placeholder="Search"
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
+        defaultValue={search}
+        onChange={(e) => debouncedSearch(e.target.value)}
       />
 
-      {loading && <h1>Loading....</h1>}
+      {loading && <h1>Loading...</h1>}
       {error && <h1>Something went wrong</h1>}
 
       <h2>Number of products are : {products.length}</h2>
